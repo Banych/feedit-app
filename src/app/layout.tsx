@@ -1,5 +1,6 @@
 import NavBar from '@/components/nav-bar';
-import { Toaster } from '@/components/ui/sonner';
+import Providers from '@/components/providers/providers';
+import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
@@ -26,17 +27,22 @@ export default function RootLayout({
         inter.className
       )}
     >
-      <body className="min-h-screen bg-slate-50 pt-12 antialiased">
-        {/* @ts-expect-error server component */}
-        <NavBar />
+      <body
+        className="min-h-screen bg-slate-50 pt-12 antialiased"
+        suppressHydrationWarning
+      >
+        <Providers>
+          {/* @ts-expect-error server component */}
+          <NavBar />
 
-        {authModal}
+          {authModal}
 
-        <div className="container mx-auto h-full max-w-7xl pt-12">
-          {children}
-        </div>
+          <div className="container mx-auto h-full max-w-7xl pt-12">
+            {children}
+          </div>
 
-        <Toaster />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

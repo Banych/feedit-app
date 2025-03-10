@@ -5,12 +5,14 @@ import { cn } from '@/lib/utils';
 import { FC, HTMLAttributes, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Icons } from '@/components/icons';
-import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
 
 type UserAuthFormProps = HTMLAttributes<HTMLDivElement>;
 
 const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const loginWithGoogle = async () => {
     setIsLoading(true);
@@ -19,7 +21,11 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
       await signIn('google');
     } catch (error) {
       console.error(error);
-      toast.error('Failed to sign in with Google');
+      toast({
+        title: 'Failed to login',
+        description: 'Failed to sign in with Google',
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
     }
