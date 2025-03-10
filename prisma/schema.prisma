@@ -53,7 +53,7 @@ model User {
   Post         Post[]
   Comment      Comment[]
   CommentVote  CommentVote[]
-  Vote         Vote[]
+  Votes        Vote[]
   Subscription Subscription[]
 }
 
@@ -95,7 +95,7 @@ model Post {
   authorId String
 
   comments Comment[]
-  vote     Vote[]
+  votes    Vote[]
 }
 
 model Comment {
