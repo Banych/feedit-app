@@ -60,7 +60,7 @@ const CommunityLayout = async ({
         {/* TODO: button take us back */}
 
         <div className="grid grid-cols-1 gap-y-4 py-6 md:grid-cols-3 md:gap-x-4">
-          <div className="col-span-2 flex flex-col space-y-6">{children}</div>
+          <div className="col-span-2 flex flex-col gap-y-6">{children}</div>
 
           {/* info sidebar */}
           <div className="order-first hidden h-fit overflow-hidden rounded-lg border border-gray-200 md:order-last md:block">

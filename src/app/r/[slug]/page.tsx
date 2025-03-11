@@ -1,4 +1,5 @@
 import MiniCreatePost from '@/components/mini-create-post';
+import PostFeed from '@/components/post-feed';
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import { getAuthSession } from '@/lib/auth';
 import { db } from '@/lib/db';
@@ -44,7 +45,7 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
       </h1>
       <MiniCreatePost session={session} />
 
-      {/* TODO: show post in user feed */}
+      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
 };
