@@ -1,6 +1,7 @@
 import NavBar from '@/components/nav-bar';
 import Providers from '@/components/providers/providers';
 import { Toaster } from '@/components/ui/toaster';
+import { getAuthSession } from '@/lib/auth';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
