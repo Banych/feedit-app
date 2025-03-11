@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 import { format } from 'date-fns';
 import SubscribeLeaveToggle from '@/components/subscribe-leave-toggle';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 const CommunityLayout = async ({
   children,
@@ -91,6 +93,17 @@ const CommunityLayout = async ({
                   subredditName={subreddit.name}
                   isSubscribed={isSubscribed}
                 />
+              ) : null}
+              {isSubscribed ? (
+                <Link
+                  className={buttonVariants({
+                    variant: 'outline',
+                    className: 'w-full mb-6',
+                  })}
+                  href={`/r/${slug}/submit`}
+                >
+                  Create Post
+                </Link>
               ) : null}
             </dl>
           </div>

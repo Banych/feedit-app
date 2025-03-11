@@ -25,4 +25,5 @@
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
+  "prettier.tabWidth": 2
 }
