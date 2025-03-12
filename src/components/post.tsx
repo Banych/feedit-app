@@ -49,7 +49,7 @@ const Post: FC<PostProps> = ({
                 <span className="px-1">•</span>
               </>
             ) : null}
-            <span>Posted by u/{post.author.name}</span>{' '}
+            <span>Posted by u/{post.author.username}</span>{' '}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
           <a href={`/r/${subredditName}/post/${post.id}`}>
@@ -73,7 +73,7 @@ const Post: FC<PostProps> = ({
           href={`/r/${subredditName}/post/${post.id}`}
           className="flex w-fit items-center gap-2"
         >
-          <MessageSquare className="h-4 w-4" /> {commentAmount} comments
+          <MessageSquare className="size-4" /> {commentAmount} comments
         </a>
       </div>
     </div>
