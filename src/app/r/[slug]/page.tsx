@@ -28,6 +28,9 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
           comments: true,
           subreddit: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
 
         take: INFINITE_SCROLLING_PAGINATION_RESULTS,
       },
