@@ -11,7 +11,7 @@ import Post from '@/components/post';
 
 type PostFeedProps = {
   initialPosts: ExtendedPost[];
-  subredditName: string;
+  subredditName?: string;
 };
 
 const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
