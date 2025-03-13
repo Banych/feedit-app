@@ -14,12 +14,13 @@ import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { Loader2, Users } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { push, refresh } = useRouter();
+  const pathname = usePathname();
 
   /*
   TODO: fix bug when clear search query
@@ -70,6 +71,10 @@ const SearchBar = () => {
     },
     [debouncedRequest]
   );
+
+  useEffect(() => {
+    setSearchQuery('');
+  }, [pathname]);
 
   return (
     <Command
