@@ -10,16 +10,25 @@ import {
 } from '@/components/ui/command';
 import { Prisma, Subreddit } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
+import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import { Users } from 'lucide-react';
+import { Loader2, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-
   const { push, refresh } = useRouter();
+
+  /*
+  TODO: fix bug when clear search query
+  Unhandled Runtime Error
+  TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
+  */
+  const commandRef = useClickAway<HTMLDivElement>(() => {
+    setSearchQuery('');
+  });
 
   const {
     data: queryResults,
@@ -29,11 +38,15 @@ const SearchBar = () => {
   } = useQuery({
     queryKey: ['search-query'],
     queryFn: async () => {
+      console.log('start search');
       if (!searchQuery) {
+        console.log('no search query');
         return [];
       }
 
+      console.log('searching');
       const { data } = await axios.get(`/api/search?q=${searchQuery}`);
+      console.log('searched');
 
       return data as (Subreddit & {
         _count: Prisma.SubredditCountOutputType;
@@ -47,22 +60,39 @@ const SearchBar = () => {
 
   const debouncedRequest = useCallback(() => {
     request();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleCommandInputChange = useCallback(
+    (text: string) => {
+      setSearchQuery(text);
+      debouncedRequest();
+    },
+    [debouncedRequest]
+  );
+
   return (
-    <Command className="relative z-50 max-w-lg overflow-visible rounded-lg border">
+    <Command
+      ref={commandRef}
+      className="relative z-50 max-w-lg overflow-visible rounded-lg border"
+    >
       <CommandInput
         className="border-none outline-none ring-0 focus:border-none focus:outline-none"
         placeholder="Search communities..."
         value={searchQuery}
-        onValueChange={(text) => {
-          setSearchQuery(text);
-          debouncedRequest();
-        }}
+        onValueChange={handleCommandInputChange}
       />
-      {searchQuery.length > 0 && (
+      {searchQuery?.length > 0 && (
         <CommandList className="absolute inset-x-0 top-full rounded-b-md bg-white shadow">
-          {isFetched && <CommandEmpty>No results found</CommandEmpty>}
+          <CommandEmpty>
+            {isFetched && !isFetching && 'No results found.'}
+            {isFetching && (
+              <div className="flex items-center justify-center">
+                <Loader2 className="mr-2 size-5 animate-spin text-zinc-500" />{' '}
+                Searching...
+              </div>
+            )}
+          </CommandEmpty>
           {(queryResults?.length ?? 0) > 0 && (
             <CommandGroup heading="Communities">
               {queryResults?.map((subreddit) => (
