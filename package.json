@@ -69,6 +69,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^15.2.2",
     "@types/editorjs__header": "^2.6.0",
     "@types/lodash.debounce": "^4.0.7",
     "eslint": "^9.22.0",

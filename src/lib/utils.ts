@@ -26,15 +26,26 @@ const formatDistanceLocale = {
   almostXYears: '{{count}}y',
 };
 
-function formatDistance(token: string, count: number, options?: any): string {
-  options = options || {};
+function formatDistance(
+  token: string,
+  count: number,
+  options?: unknown
+): string {
+  const _options = options || {};
+  if (typeof _options !== 'object') {
+    return '';
+  }
 
   const result = formatDistanceLocale[
     token as keyof typeof formatDistanceLocale
   ].replace('{{count}}', count.toString());
 
-  if (options.addSuffix) {
-    if (options.comparison > 0) {
+  if ('addSuffix' in _options && _options.addSuffix) {
+    if (
+      'comparison' in _options &&
+      typeof _options.comparison === 'number' &&
+      _options.comparison > 0
+    ) {
       return 'in ' + result;
     } else {
       if (result === 'just now') return result;

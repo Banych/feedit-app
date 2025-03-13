@@ -19,11 +19,13 @@ const eslintConfig = [
     'plugin:react/recommended',
     'plugin:tailwindcss/recommended',
     'plugin:css/standard',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    'plugin:@next/next/recommended'
   ),
   eslintCssPlugin.configs['flat/standard'],
   eslintConfigPrettier,
   {
+    ignores: ['node_modules/**/*', '.next/**/*', 'out/**/*'],
     rules: {
       'react/react-in-jsx-scope': 'off',
     },

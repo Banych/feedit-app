@@ -164,6 +164,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   useEffect(() => {
     if (Object.keys(errors).length) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       for (const [_key, value] of Object.entries(errors)) {
         toast({
           title: 'Something went wrong',
