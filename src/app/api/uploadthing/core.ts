@@ -13,20 +13,28 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async ({ req }) => {
-      const user = await auth(req);
+    .middleware(async () => {
+      const session = await auth();
 
-      if (!user) throw new UploadThingError('Unauthorized');
+      if (!session) throw new UploadThingError('Unauthorized');
 
-      return { userId: user.id };
+      return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Upload complete for userId:', metadata.userId);
+    .onUploadComplete(
+      async ({
+        metadata,
+        file,
+      }: {
+        metadata: { userId: string };
+        file: { url: string };
+      }): Promise<{ uploadedBy: string }> => {
+        console.log('Upload complete for userId:', metadata.userId);
 
-      console.log('file url', file.url);
+        console.log('file url', file.url);
 
-      return { uploadedBy: metadata.userId };
-    }),
+        return { uploadedBy: metadata.userId };
+      }
+    ),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
