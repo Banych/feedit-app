@@ -8,6 +8,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Post from '@/components/post';
+import { Loader2 } from 'lucide-react';
 
 type PostFeedProps = {
   initialPosts: ExtendedPost[];
@@ -22,7 +23,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
   });
   const { data: session } = useSession();
 
-  const { data, fetchNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, isFetching } = useInfiniteQuery(
     ['infinite-query'],
     async ({ pageParam = 1 }) => {
       const query =
@@ -92,6 +93,12 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
           );
         }
       })}
+      {isFetching && (
+        <div className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
+          <Loader2 className="size-4 animate-spin" />
+          Loading more posts...
+        </div>
+      )}
     </ul>
   );
 };
