@@ -17,7 +17,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
   const pathname = usePathname();
 
   return (
-    <div className="h-min overflow-hidden rounded-md bg-white shadow">
+    <div className="rounded-md bg-white shadow">
       <div className="flex justify-between gap-6 px-6 py-4">
         <div className="relative">
           <UserAvatar
@@ -26,7 +26,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
               image: session?.user?.image || null,
             }}
           />
-          <span className="absolute bottom-0 h-3 w-3 rounded-full bg-green-500 outline outline-2 outline-white ring-0" />
+          <span className="absolute bottom-0 size-3 rounded-full bg-green-500 outline outline-2 outline-white ring-0" />
         </div>
         <Input
           readOnly
