@@ -60,7 +60,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
         onClick={loginWithGoogle}
         isLoading={isGoogleLoading}
       >
-        {isGoogleLoading ? null : <Icons.google className="mr-2 h-4 w-4" />}
+        {isGoogleLoading ? null : <Icons.google className="mr-2 size-4" />}
         Google
       </Button>
       <Button
@@ -70,7 +70,7 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
         isLoading={isGithubLoading}
       >
         {isGithubLoading ? null : (
-          <Icons.github className="mr-2 h-4 w-4 text-white dark:text-gray-400" />
+          <Icons.github className="mr-2 size-4 text-white dark:text-gray-400" />
         )}
         Github
       </Button>

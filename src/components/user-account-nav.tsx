@@ -26,7 +26,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
             name: user.name || null,
             image: user.image || null,
           }}
-          className="h-8 w-8"
+          className="size-8"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white" align="end">
