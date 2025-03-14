@@ -12,15 +12,16 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 type PostPageProps = {
-  params: {
+  params: Promise<{
     postId: string;
-  };
+  }>;
 };
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
-const PostPage = async ({ params }: PostPageProps) => {
+const PostPage = async (props: PostPageProps) => {
+  const params = await props.params;
   const cachedPost = (await redis.hgetall(
     `post:${params.postId}`
   )) as CachedPost;

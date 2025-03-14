@@ -4,12 +4,13 @@ import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 
 type SubmitPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-const SubmitPage = async ({ params }: SubmitPageProps) => {
+const SubmitPage = async (props: SubmitPageProps) => {
+  const params = await props.params;
   const { slug } = params;
 
   const subreddit = await db.subreddit.findFirst({

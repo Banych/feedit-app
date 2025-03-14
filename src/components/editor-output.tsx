@@ -28,7 +28,6 @@ const renderers = {
 
 const EditorOutput: FC<EditorOutputProps> = ({ content }) => {
   return (
-    // @ts-expect-error Output is not a valid JSX element
     <Output
       className="text-sm"
       data={content}

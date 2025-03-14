@@ -11,10 +11,10 @@ const CloseModal = () => {
     <Button
       aria-label="Close modal"
       variant="subtle"
-      className="h-6 w-6 rounded-md p-0"
+      className="size-6 rounded-md p-0"
       onClick={back}
     >
-      <X className="h-4 w-4" />
+      <X className="size-4" />
     </Button>
   );
 };
