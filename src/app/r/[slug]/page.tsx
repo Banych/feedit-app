@@ -6,12 +6,13 @@ import { db } from '@/lib/db';
 import { notFound } from 'next/navigation';
 
 type CommunityPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-const CommunityPage = async ({ params }: CommunityPageProps) => {
+const CommunityPage = async (props: CommunityPageProps) => {
+  const params = await props.params;
   const { slug } = params;
 
   const session = await getAuthSession();

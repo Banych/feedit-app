@@ -7,9 +7,6 @@ const nextConfig = {
       'hgbvbm8t5j.ufs.sh',
     ],
   },
-  experimental: {
-    appDir: true,
-  },
 };
 
 module.exports = nextConfig;

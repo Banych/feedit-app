@@ -7,10 +7,15 @@ import SubscribeLeaveToggle from '@/components/subscribe-leave-toggle';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 
-const CommunityLayout = async ({
-  children,
-  params: { slug },
-}: PropsWithChildren<{ params: { slug: string } }>) => {
+const CommunityLayout = async (
+  props: PropsWithChildren<{ params: Promise<{ slug: string }> }>
+) => {
+  const params = await props.params;
+
+  const { slug } = params;
+
+  const { children } = props;
+
   const session = await getAuthSession();
 
   const subreddit = await db.subreddit.findFirst({
