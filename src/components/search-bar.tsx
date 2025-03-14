@@ -39,15 +39,11 @@ const SearchBar = () => {
   } = useQuery({
     queryKey: ['search-query'],
     queryFn: async () => {
-      console.log('start search');
       if (!searchQuery) {
-        console.log('no search query');
         return [];
       }
 
-      console.log('searching');
       const { data } = await axios.get(`/api/search?q=${searchQuery}`);
-      console.log('searched');
 
       return data as (Subreddit & {
         _count: Prisma.SubredditCountOutputType;
