@@ -5,6 +5,9 @@ import { getAuthSession } from '@/lib/auth';
 import { HomeIcon } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 export default async function Home() {
   const session = await getAuthSession();
 
@@ -15,7 +18,6 @@ export default async function Home() {
         {/* @ts-expect-error server component async */}
         {session ? <CustomFeed /> : <GeneralFeed />}
 
-        {/* subreddit info */}
         <div className="order-first h-fit overflow-hidden rounded-lg border border-gray-200 md:order-last">
           <div className="bg-emerald-100 px-6 py-4">
             <p className="flex items-center gap-1.5 py-3 font-semibold">
