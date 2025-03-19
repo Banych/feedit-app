@@ -64,7 +64,6 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       });
     },
     onSuccess: () => {
-      // r/mycommunity/submit -> r/mycommunity
       const newPathname = pathname.replace(/\/submit$/, '');
       push(newPathname);
 

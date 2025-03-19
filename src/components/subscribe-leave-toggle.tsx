@@ -23,7 +23,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   const { loginToast } = useCustomToast();
   const { refresh } = useRouter();
 
-  const { mutate: subscribe, isLoading: isSubscriptionLoading } = useMutation({
+  const { mutate: subscribe, isPending: isSubscriptionLoading } = useMutation({
     mutationFn: async () => {
       const payload: SubscribeToSubredditPayload = {
         subredditId,
@@ -57,7 +57,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
     },
   });
 
-  const { mutate: unsubscribe, isLoading: isUnsubscribeLoading } = useMutation({
+  const { mutate: unsubscribe, isPending: isUnsubscribeLoading } = useMutation({
     mutationFn: async () => {
       await axios.post('/api/subreddit/unsubscribe', {
         subredditId,

@@ -53,7 +53,6 @@ const PostPage = async (props: PostPageProps) => {
     <div>
       <div className="flex h-full flex-col items-center justify-between sm:flex-row sm:items-start">
         <Suspense fallback={<PostVoteShell />}>
-          {/* @ts-expect-error server component */}
           <PostVoteServer
             postId={post?.id ?? cachedPost.id}
             getData={async () => {
@@ -82,7 +81,6 @@ const PostPage = async (props: PostPageProps) => {
           <Suspense
             fallback={<Loader2 className="size-5 animate-spin text-zinc-500" />}
           >
-            {/* @ts-expect-error server component */}
             <CommentsSection postId={post?.id ?? cachedPost.id} />
           </Suspense>
         </div>

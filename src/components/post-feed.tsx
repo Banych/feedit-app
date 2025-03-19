@@ -8,7 +8,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Post from '@/components/post';
-import { Loader2 } from 'lucide-react';
+import { ArrowDown, BookCheck, Loader2 } from 'lucide-react';
 
 type PostFeedProps = {
   initialPosts: ExtendedPost[];
@@ -23,9 +23,9 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
   });
   const { data: session } = useSession();
 
-  const { data, fetchNextPage, isFetching } = useInfiniteQuery(
-    ['infinite-query'],
-    async ({ pageParam = 1 }) => {
+  const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery({
+    queryKey: ['infinite-query'],
+    queryFn: async ({ pageParam = 1 }) => {
       const query =
         `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
         (!!subredditName ? `&subredditName=${subredditName}` : '');
@@ -34,19 +34,21 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
 
       return data as ExtendedPost[];
     },
-    {
-      getNextPageParam: (_, pages) => {
-        return pages.length + 1;
-      },
-      initialData: { pages: [initialPosts], pageParams: [1] },
-    }
-  );
+    getNextPageParam: (lastPage, pages, lastPageParams) => {
+      if (lastPage.length < INFINITE_SCROLLING_PAGINATION_RESULTS) {
+        return undefined;
+      }
+      return lastPageParams + 1;
+    },
+    initialPageParam: 1,
+    initialData: { pages: [initialPosts], pageParams: [1] },
+  });
 
   useEffect(() => {
-    if (entry?.isIntersecting) {
+    if (entry?.isIntersecting && hasNextPage) {
       fetchNextPage();
     }
-  }, [entry, fetchNextPage]);
+  }, [entry, fetchNextPage, hasNextPage]);
 
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 
@@ -93,12 +95,24 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
           );
         }
       })}
-      {isFetching && (
-        <div className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
-          <Loader2 className="size-4 animate-spin" />
-          Loading more posts...
-        </div>
-      )}
+      <div className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
+        {isFetching ? (
+          <>
+            <Loader2 className="size-4 animate-spin" />
+            Loading more posts...
+          </>
+        ) : hasNextPage ? (
+          <>
+            <ArrowDown className="size-4" />
+            Scroll down to load more posts
+          </>
+        ) : (
+          <>
+            <BookCheck className="size-4" />
+            No more posts to load
+          </>
+        )}
+      </div>
     </ul>
   );
 };

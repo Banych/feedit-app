@@ -17,7 +17,7 @@ const CratePage = () => {
 
   const { back, push } = useRouter();
 
-  const { mutate: createCommunity, isLoading } = useMutation({
+  const { mutate: createCommunity, isPending: isLoading } = useMutation({
     mutationFn: async () => {
       const payload: CreateSubredditPayload = {
         name: input,

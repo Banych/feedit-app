@@ -32,7 +32,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Providers>
-          {/* @ts-expect-error server component */}
           <NavBar />
 
           {authModal}
