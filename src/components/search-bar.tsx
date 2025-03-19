@@ -1,9 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-
 import { buttonVariants } from '@/components/ui/button';
-
 import {
   Command,
   CommandEmpty,
@@ -12,7 +10,6 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-
 import {
   Dialog,
   DialogContent,
@@ -20,36 +17,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-
 import { useHotkeys } from '@mantine/hooks';
-
 import { Prisma, Subreddit } from '@prisma/client';
-
 import { useQuery } from '@tanstack/react-query';
-
 import { useClickAway } from '@uidotdev/usehooks';
-
 import axios from 'axios';
-
 import debounce from 'lodash.debounce';
-
 import { Loader2, Search, Users } from 'lucide-react';
-
 import { usePathname, useRouter } from 'next/navigation';
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-
   const [isOpen, setIsOpen] = useState(false);
-
   const { push, refresh } = useRouter();
-
   const pathname = usePathname();
-
   const commandInputRef = useRef<HTMLInputElement>(null);
-
   const commandRef = useClickAway<HTMLDivElement>(() => {
     setSearchQuery('');
   });
@@ -57,10 +40,8 @@ const SearchBar = () => {
   useHotkeys([
     [
       'mod+k',
-
       () => {
         setIsOpen(true);
-
         commandInputRef.current?.focus();
       },
     ],
@@ -68,15 +49,11 @@ const SearchBar = () => {
 
   const {
     data: queryResults,
-
     refetch,
-
     isFetched,
-
     isFetching,
   } = useQuery({
     queryKey: ['search-query'],
-
     queryFn: async () => {
       if (!searchQuery) {
         return [];
@@ -101,10 +78,8 @@ const SearchBar = () => {
   const handleCommandInputChange = useCallback(
     (text: string) => {
       setSearchQuery(text);
-
       debouncedRequest();
     },
-
     [debouncedRequest]
   );
 
