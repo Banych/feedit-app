@@ -83,12 +83,12 @@
     "@babel/runtime" "^7.10.2"
     "@codexteam/icons" "^0.0.4"
 
-"@editorjs/list@^1.8.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.10.0.tgz#5292ccc44d07effb2bca5e3206e7a647bf1fcbc1"
-  integrity sha512-zXCHaNcIscpefnteBOS3x+98f/qBgEVsv+OvtKoTDZipMNqck2uVG+X2qMQr8xcwtJrj9ySX54lUac9FDlAHnA==
+"@editorjs/list@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-2.0.6.tgz#2f9004ca3499044988af43f0aa9b81d2db7b054e"
+  integrity sha512-QmmRAMtIBlO9k8LxfiqhWM+CjrA9r1F5th3cI9UFhDMC78YqFdFNg+dWrH57bAW4063HJfS1ygbGoH/LfHBkww==
   dependencies:
-    "@codexteam/icons" "^0.0.4"
+    "@codexteam/icons" "^0.3.2"
 
 "@editorjs/paragraph@^2.9.0":
   version "2.11.7"
@@ -4098,7 +4098,7 @@ tailwindcss-animate@^1.0.7:
   resolved "https://registry.yarnpkg.com/tailwindcss-animate/-/tailwindcss-animate-1.0.7.tgz#318b692c4c42676cc9e67b19b78775742388bef4"
   integrity sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==
 
-tailwindcss@3:
+tailwindcss@^3:
   version "3.4.17"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.17.tgz#ae8406c0f96696a631c790768ff319d46d5e5a63"
   integrity sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==
