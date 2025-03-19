@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -9,19 +10,26 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useHotkeys } from '@mantine/hooks';
 import { Prisma, Subreddit } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import { Loader2, Users } from 'lucide-react';
+import { Loader2, Search, Users } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { push, refresh } = useRouter();
   const pathname = usePathname();
   const commandInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +38,15 @@ const SearchBar = () => {
     setSearchQuery('');
   });
 
-  useHotkeys([['mod+k', () => commandInputRef.current?.focus()]]);
+  useHotkeys([
+    [
+      'mod+k',
+      () => {
+        setIsOpen(true);
+        commandInputRef.current?.focus();
+      },
+    ],
+  ]);
 
   const {
     data: queryResults,
@@ -73,76 +89,79 @@ const SearchBar = () => {
     setSearchQuery('');
   }, [pathname]);
 
-  const handleCommandInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
-
-  const handleCommandInputBlur = useCallback(() => {
-    setIsFocused(false);
-  }, []);
-
   return (
-    <Command
-      ref={commandRef}
-      className="relative z-50 max-w-lg overflow-visible rounded-lg border"
-    >
-      <CommandInput
-        className="border-none outline-none ring-0 focus:border-none focus:outline-none"
-        placeholder="Search communities..."
-        value={searchQuery}
-        onValueChange={handleCommandInputChange}
-        ref={commandInputRef}
-        onFocus={handleCommandInputFocus}
-        onBlur={handleCommandInputBlur}
-      />
-      <div
-        className="absolute inset-y-0 right-3 flex items-center opacity-20"
-        style={{ pointerEvents: 'none' }}
-      >
-        <Badge variant="outline">Ctrl+K</Badge>
-      </div>
-      <CommandList className="absolute inset-x-0 top-full rounded-b-md bg-white shadow">
-        {!searchQuery && isFocused && (
-          <CommandEmpty>
-            <div className="flex items-center justify-center text-zinc-500">
-              Please start typing to search.
-            </div>
-          </CommandEmpty>
-        )}
-        {searchQuery?.length > 0 && (
-          <>
-            <CommandEmpty>
-              <div className="flex items-center justify-center text-zinc-500">
-                {isFetched && !isFetching && 'No results found.'}
-                {isFetching && (
-                  <>
-                    <Loader2 className="mr-2 size-5 animate-spin" />{' '}
-                    Searching...
-                  </>
-                )}
-              </div>
-            </CommandEmpty>
-            {(queryResults?.length ?? 0) > 0 && (
-              <CommandGroup heading="Communities">
-                {queryResults?.map((subreddit) => (
-                  <CommandItem
-                    key={subreddit.id}
-                    onSelect={(e) => {
-                      push(`/r/${e}`);
-                      refresh();
-                    }}
-                    value={subreddit.name}
-                  >
-                    <Users className="mr-2 size-4" />
-                    <a href={`/r/${subreddit.name}`}>{subreddit.name}</a>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger>
+        <div className={buttonVariants({ variant: 'outline' })}>
+          <Search className="mr-2 size-5" />
+          Search Communities...
+          <Badge variant="outline" className="ml-2">
+            Ctrl+K
+          </Badge>
+        </div>
+      </DialogTrigger>
+      <DialogContent showCloseButton={false} className="border-0 p-0">
+        <DialogHeader className="sr-only h-0">
+          <DialogTitle>Search Communities</DialogTitle>
+        </DialogHeader>
+        <Command
+          ref={commandRef}
+          className="relative max-w-lg overflow-visible rounded-lg border"
+        >
+          <CommandInput
+            className="border-none outline-none ring-0 focus:border-none focus:outline-none"
+            placeholder="Search communities..."
+            value={searchQuery}
+            onValueChange={handleCommandInputChange}
+            ref={commandInputRef}
+          />
+          <div className="pointer-events-none absolute right-2 top-2">
+            <Badge variant="secondary">Esc</Badge>
+          </div>
+          <CommandList className="min-h-60 rounded-b-md bg-white shadow">
+            {!searchQuery && (
+              <CommandEmpty>
+                <div className="flex items-center justify-center text-zinc-500">
+                  Please start typing to search.
+                </div>
+              </CommandEmpty>
             )}
-          </>
-        )}
-      </CommandList>
-    </Command>
+            {searchQuery?.length > 0 && (
+              <>
+                <CommandEmpty>
+                  <div className="flex items-center justify-center text-zinc-500">
+                    {isFetched && !isFetching && 'No results found.'}
+                    {isFetching && (
+                      <>
+                        <Loader2 className="mr-2 size-5 animate-spin" />{' '}
+                        Searching...
+                      </>
+                    )}
+                  </div>
+                </CommandEmpty>
+                {(queryResults?.length ?? 0) > 0 && (
+                  <CommandGroup heading="Communities">
+                    {queryResults?.map((subreddit) => (
+                      <CommandItem
+                        key={subreddit.id}
+                        onSelect={(e) => {
+                          push(`/r/${e}`);
+                          refresh();
+                        }}
+                        value={subreddit.name}
+                      >
+                        <Users className="mr-2 size-4" />
+                        <a href={`/r/${subreddit.name}`}>{subreddit.name}</a>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+              </>
+            )}
+          </CommandList>
+        </Command>
+      </DialogContent>
+    </Dialog>
   );
 };
 
