@@ -39,7 +39,7 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
     },
   });
 
-  const { mutate: update, isLoading: isUpdateLoading } = useMutation({
+  const { mutate: update, isPending: isUpdateLoading } = useMutation({
     mutationFn: async ({ name }: UserNamePayload) => {
       const payload: UserNamePayload = { name };
 

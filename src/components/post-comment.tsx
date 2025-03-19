@@ -42,7 +42,7 @@ const PostComment: FC<PostCommentProps> = ({
   const { push, refresh } = useRouter();
   const { data: session } = useSession();
 
-  const { mutate: commentFn, isLoading: isCommentLoading } = useMutation({
+  const { mutate: commentFn, isPending: isCommentLoading } = useMutation({
     mutationFn: async ({ postId, text, replyToId }: PostCommentPayload) => {
       const payload: PostCommentPayload = {
         postId,

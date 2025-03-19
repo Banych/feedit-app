@@ -22,11 +22,6 @@ const SearchBar = () => {
   const { push, refresh } = useRouter();
   const pathname = usePathname();
 
-  /*
-  TODO: fix bug when clear search query
-  Unhandled Runtime Error
-  TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
-  */
   const commandRef = useClickAway<HTMLDivElement>(() => {
     setSearchQuery('');
   });
