@@ -1,7 +1,9 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+
 import { buttonVariants } from '@/components/ui/button';
+
 import {
   Command,
   CommandEmpty,
@@ -10,6 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+
 import {
   Dialog,
   DialogContent,
@@ -17,21 +20,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
 import { useHotkeys } from '@mantine/hooks';
+
 import { Prisma, Subreddit } from '@prisma/client';
+
 import { useQuery } from '@tanstack/react-query';
+
 import { useClickAway } from '@uidotdev/usehooks';
+
 import axios from 'axios';
+
 import debounce from 'lodash.debounce';
+
 import { Loader2, Search, Users } from 'lucide-react';
+
 import { usePathname, useRouter } from 'next/navigation';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+
   const [isOpen, setIsOpen] = useState(false);
+
   const { push, refresh } = useRouter();
+
   const pathname = usePathname();
+
   const commandInputRef = useRef<HTMLInputElement>(null);
 
   const commandRef = useClickAway<HTMLDivElement>(() => {
@@ -41,8 +57,10 @@ const SearchBar = () => {
   useHotkeys([
     [
       'mod+k',
+
       () => {
         setIsOpen(true);
+
         commandInputRef.current?.focus();
       },
     ],
@@ -50,11 +68,15 @@ const SearchBar = () => {
 
   const {
     data: queryResults,
+
     refetch,
+
     isFetched,
+
     isFetching,
   } = useQuery({
     queryKey: ['search-query'],
+
     queryFn: async () => {
       if (!searchQuery) {
         return [];
@@ -74,14 +96,15 @@ const SearchBar = () => {
 
   const debouncedRequest = useCallback(() => {
     request();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCommandInputChange = useCallback(
     (text: string) => {
       setSearchQuery(text);
+
       debouncedRequest();
     },
+
     [debouncedRequest]
   );
 
@@ -100,10 +123,12 @@ const SearchBar = () => {
           </Badge>
         </div>
       </DialogTrigger>
+
       <DialogContent showCloseButton={false} className="border-0 p-0">
         <DialogHeader className="sr-only h-0">
           <DialogTitle>Search Communities</DialogTitle>
         </DialogHeader>
+
         <Command
           ref={commandRef}
           className="relative max-w-lg overflow-visible rounded-lg border"
@@ -115,9 +140,11 @@ const SearchBar = () => {
             onValueChange={handleCommandInputChange}
             ref={commandInputRef}
           />
+
           <div className="pointer-events-none absolute right-2 top-2">
             <Badge variant="secondary">Esc</Badge>
           </div>
+
           <CommandList className="min-h-60 rounded-b-md bg-white shadow">
             {!searchQuery && (
               <CommandEmpty>
@@ -126,11 +153,13 @@ const SearchBar = () => {
                 </div>
               </CommandEmpty>
             )}
+
             {searchQuery?.length > 0 && (
               <>
                 <CommandEmpty>
                   <div className="flex items-center justify-center text-zinc-500">
                     {isFetched && !isFetching && 'No results found.'}
+
                     {isFetching && (
                       <>
                         <Loader2 className="mr-2 size-5 animate-spin" />{' '}
@@ -139,6 +168,7 @@ const SearchBar = () => {
                     )}
                   </div>
                 </CommandEmpty>
+
                 {(queryResults?.length ?? 0) > 0 && (
                   <CommandGroup heading="Communities">
                     {queryResults?.map((subreddit) => (
@@ -146,11 +176,15 @@ const SearchBar = () => {
                         key={subreddit.id}
                         onSelect={(e) => {
                           push(`/r/${e}`);
+
                           refresh();
+
+                          setIsOpen(false);
                         }}
                         value={subreddit.name}
                       >
                         <Users className="mr-2 size-4" />
+
                         <a href={`/r/${subreddit.name}`}>{subreddit.name}</a>
                       </CommandItem>
                     ))}
