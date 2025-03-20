@@ -5,7 +5,9 @@ import { Input } from '@/components/ui/input';
 import UserAvatar from '@/components/user-avatar';
 import { ImageIcon, Link2 } from 'lucide-react';
 import { Session } from 'next-auth';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 import { FC } from 'react';
 
 type MiniCreatePostProps = {

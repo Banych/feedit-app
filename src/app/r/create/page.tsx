@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useRouter } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
