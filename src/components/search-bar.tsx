@@ -24,6 +24,7 @@ import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { Loader2, Search, Users } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // @ts-expect-error - No types available
 import { useRouter } from 'nextjs-toploader/app';
@@ -162,7 +163,9 @@ const SearchBar = () => {
                       >
                         <Users className="mr-2 size-4" />
 
-                        <a href={`/r/${subreddit.name}`}>{subreddit.name}</a>
+                        <Link href={`/r/${subreddit.name}`}>
+                          {subreddit.name}
+                        </Link>
                       </CommandItem>
                     ))}
                   </CommandGroup>

@@ -3,6 +3,7 @@ import PostVoteClient from '@/components/post-vote/post-vote-client';
 import { formatTimeToNow } from '@/lib/utils';
 import { Post as PostType, User, Vote } from '@prisma/client';
 import { MessageSquare } from 'lucide-react';
+import Link from 'next/link';
 import { FC, useRef } from 'react';
 
 type PartialVote = Pick<Vote, 'type'>;
@@ -40,23 +41,23 @@ const Post: FC<PostProps> = ({
           <div className="mt-1 max-h-40 text-xs text-gray-500">
             {subredditName ? (
               <>
-                <a
+                <Link
                   href={`/r/${subredditName}`}
                   className="text-sm text-zinc-900 underline underline-offset-2"
                 >
                   r/{subredditName}
-                </a>
+                </Link>
                 <span className="px-1">•</span>
               </>
             ) : null}
             <span>Posted by u/{post.author.username}</span>{' '}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
-          <a href={`/r/${subredditName}/post/${post.id}`}>
+          <Link href={`/r/${subredditName}/post/${post.id}`}>
             <h1 className="py-2 text-lg font-semibold leading-6 text-gray-900">
               {post.title}
             </h1>
-          </a>
+          </Link>
           <div
             className="relative max-h-40 w-full overflow-y-clip text-sm"
             ref={postRef}
@@ -69,12 +70,12 @@ const Post: FC<PostProps> = ({
         </div>
       </div>
       <div className="z-20 bg-gray-50 p-4 text-sm sm:px-6">
-        <a
+        <Link
           href={`/r/${subredditName}/post/${post.id}`}
           className="flex w-fit items-center gap-2"
         >
           <MessageSquare className="size-4" /> {commentAmount} comments
-        </a>
+        </Link>
       </div>
     </div>
   );
