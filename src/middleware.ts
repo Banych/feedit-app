@@ -1,10 +1,11 @@
-import { getAuthSession } from '@/lib/auth';
+import { getToken } from 'next-auth/jwt';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const session = await getAuthSession();
+  const token = await getToken({ req });
 
-  if (!session?.user) {
+  if (!token) {
     return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
   }
 }
