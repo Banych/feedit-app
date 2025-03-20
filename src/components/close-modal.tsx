@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 
 const CloseModal = () => {
   const { back } = useRouter();

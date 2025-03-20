@@ -8,7 +8,8 @@ import { toast } from '@/hooks/use-toast';
 import { PostCommentPayload } from '@/lib/validators/comment';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 import { FC, useState } from 'react';
 
 type CreateCommentProps = {

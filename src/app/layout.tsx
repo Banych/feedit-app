@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata = {
   title: 'Feedit',
@@ -31,6 +32,7 @@ export default function RootLayout({
         className="relative min-h-screen bg-slate-50 antialiased"
         suppressHydrationWarning
       >
+        <NextTopLoader showSpinner={false} />
         <Providers>
           <NavBar />
 

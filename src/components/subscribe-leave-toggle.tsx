@@ -6,7 +6,8 @@ import { toast } from '@/hooks/use-toast';
 import { SubscribeToSubredditPayload } from '@/lib/validators/subreddit';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 import { FC, startTransition } from 'react';
 
 type SubscribeLeaveToggleProps = {

@@ -13,7 +13,8 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { MessageSquare } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
 import { FC, useRef, useState } from 'react';
 
 type ExtendedComment = Comment & {

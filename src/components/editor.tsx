@@ -1,19 +1,21 @@
 'use client';
 
-import TextAreaAutosize from 'react-textarea-autosize';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from '@/hooks/use-toast';
+import { uploadFiles } from '@/lib/uploadthing';
 import {
   PostCreationRequestPayload,
   PostValidator,
 } from '@/lib/validators/post';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import type EditorJS from '@editorjs/editorjs';
-import { uploadFiles } from '@/lib/uploadthing';
-import { toast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+// @ts-expect-error - No types available
+import { useRouter } from 'nextjs-toploader/app';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import TextAreaAutosize from 'react-textarea-autosize';
 
 type EditorProps = {
   subredditId: string;
