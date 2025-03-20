@@ -11,7 +11,11 @@ const isProtectedPath = (path: string) => {
 };
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET || '',
+    secureCookie: process.env.NODE_ENV === 'production' ? true : false,
+  });
 
   if (!token && isProtectedPath(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
