@@ -1,11 +1,12 @@
+import ButtonBack from '@/components/button-back';
+import SubscribeLeaveToggle from '@/components/subscribe-leave-toggle';
+import { buttonVariants } from '@/components/ui/button';
 import { getAuthSession } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { format } from 'date-fns';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { PropsWithChildren } from 'react';
-import { format } from 'date-fns';
-import SubscribeLeaveToggle from '@/components/subscribe-leave-toggle';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
 
 const CommunityLayout = async (
   props: PropsWithChildren<{ params: Promise<{ slug: string }> }>
@@ -60,9 +61,9 @@ const CommunityLayout = async (
   });
 
   return (
-    <div className="mx-auto h-full max-w-7xl pt-12 sm:container">
+    <div className="max-w-7xl sm:container">
       <div>
-        {/* TODO: button take us back */}
+        <ButtonBack />
 
         <div className="grid grid-cols-1 gap-y-4 py-6 md:grid-cols-3 md:gap-x-4">
           <div className="col-span-2 flex flex-col gap-y-6">{children}</div>
