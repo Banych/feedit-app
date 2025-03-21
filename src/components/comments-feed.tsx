@@ -78,13 +78,14 @@ const CommentsFeed: FC<CommentsFeedProps> = ({
         );
 
         return (
-          <li key={comment.id} ref={comments.length - 1 === index ? ref : null}>
+          <li
+            key={comment.id}
+            ref={comments.length - 1 === index ? ref : null}
+            className="relative rounded-lg bg-white px-4 py-2 shadow"
+          >
             <PostComment
               postId={comment.postId}
-              comment={{
-                ...comment,
-                post: comment.Post,
-              }}
+              comment={comment}
               currentVote={commentVote?.type ?? null}
               votesAmount={commentVotesAmount}
               showPostLink
