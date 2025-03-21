@@ -14,7 +14,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 type UserAccountNavProps = {
-  user: Pick<User, 'name' | 'email' | 'image'>;
+  user: Pick<User, 'name' | 'email' | 'image'> & {
+    username?: string | null;
+  };
 };
 
 const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
@@ -29,25 +31,30 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
           className="size-8"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-white" align="end">
-        <div className="flex items-center justify-start gap-2 p-2">
-          <div className="flex flex-col space-y-1 leading-none">
-            {user.name && <p className="font-medium">{user.name}</p>}
-            {user.email && (
-              <p className="w-[200px] truncate text-sm text-zinc-700">
-                {user.email}
-              </p>
+      <DropdownMenuContent className="w-[200px] bg-white" align="end">
+        <DropdownMenuItem className="cursor-pointer items-start" asChild>
+          <Link
+            href={`/u/${user.username}`}
+            className="flex flex-col gap-0 leading-none"
+          >
+            {user.name && (
+              <span className="text-lg font-medium">{user.name}</span>
             )}
-          </div>
-        </div>
+            {user.email && (
+              <span className="truncate text-sm text-zinc-700">
+                {user.email}
+              </span>
+            )}
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/">Feed</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/r/create">Create Community</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
