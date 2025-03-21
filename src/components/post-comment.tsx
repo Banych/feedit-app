@@ -8,7 +8,7 @@ import UserAvatar from '@/components/user-avatar';
 import { toast } from '@/hooks/use-toast';
 import { formatTimeToNow } from '@/lib/utils';
 import { PostCommentPayload } from '@/lib/validators/comment';
-import { Comment, CommentVote, User, VoteType } from '@prisma/client';
+import { Comment, CommentVote, Post, User, VoteType } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { MessageSquare } from 'lucide-react';
@@ -16,11 +16,12 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 // @ts-expect-error - No types available
 import { useRouter } from 'nextjs-toploader/app';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 type ExtendedComment = Comment & {
   votes: CommentVote[];
   author: User;
+  post?: Post & { subreddit: { name: string } };
 };
 
 type PostCommentProps = {
@@ -28,6 +29,7 @@ type PostCommentProps = {
   votesAmount: number;
   currentVote: VoteType | null;
   postId: string;
+  showPostLink?: boolean;
 };
 
 const PostComment: FC<PostCommentProps> = ({
@@ -35,6 +37,7 @@ const PostComment: FC<PostCommentProps> = ({
   votesAmount,
   currentVote,
   postId,
+  showPostLink = false,
 }) => {
   const commentRef = useRef<HTMLDivElement>(null);
 
@@ -72,6 +75,19 @@ const PostComment: FC<PostCommentProps> = ({
     },
   });
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const commentId = url.hash.replace('#', '');
+
+    if (commentRef.current && commentId === comment.id) {
+      commentRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'nearest',
+      });
+    }
+  }, [comment.id]);
+
   return (
     <div ref={commentRef} className="flex flex-col">
       <div className="flex items-center">
@@ -82,7 +98,7 @@ const PostComment: FC<PostCommentProps> = ({
           }}
           className="size-6"
         />
-        <div className="ml-2 flex items-center gap-2">
+        <div className="ml-2 flex flex-wrap items-center gap-x-2 gap-y-0">
           <Link
             className="text-sm font-medium text-gray-900 underline underline-offset-2"
             href={`/u/${comment.author.username}`}
@@ -92,6 +108,17 @@ const PostComment: FC<PostCommentProps> = ({
           <p className="max-h-40 truncate text-sm text-zinc-500">
             {formatTimeToNow(new Date(comment.createdAt))}
           </p>
+          {showPostLink && comment.post && (
+            <span className="w-full grow text-sm text-zinc-500">
+              on{' '}
+              <Link
+                className="text-sm font-medium text-gray-900 underline underline-offset-2"
+                href={`/r/${comment.post.subreddit.name}/post/${comment.postId}#${comment.id}`}
+              >
+                {comment.post.title}
+              </Link>
+            </span>
+          )}
         </div>
       </div>
       <p className="mt-2 text-sm text-zinc-900">{comment.text}</p>
