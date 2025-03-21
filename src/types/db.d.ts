@@ -15,8 +15,8 @@ export type ExtendedPost = Post & {
 };
 
 export type ExtendedComment = Comment & {
-  Post: Post & { subreddit: Subreddit };
+  Post?: Post & { subreddit: Subreddit };
   votes: CommentVote[];
-  replies: Comment[];
+  replies?: Comment[];
   author: User;
 };
