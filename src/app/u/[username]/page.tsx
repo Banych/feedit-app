@@ -1,3 +1,4 @@
+import CommentsFeed from '@/components/comments-feed';
 import PostFeed from '@/components/post-feed';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserAvatar from '@/components/user-avatar';
@@ -37,8 +38,18 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
           createdAt: 'desc',
         },
         include: {
-          Post: true,
+          Post: {
+            include: {
+              subreddit: true,
+            },
+          },
           author: true,
+          votes: {
+            include: {
+              user: true,
+            },
+          },
+          replies: true,
         },
       },
     },
@@ -78,29 +89,7 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
           {!user.Comment.length ? (
             <p className="text-xl text-muted-foreground">No comments yet</p>
           ) : (
-            <ul className="flex flex-col gap-6">
-              {user.Comment.map((comment) => (
-                <li key={comment.id}>
-                  <div className="flex items-center gap-2">
-                    <UserAvatar
-                      user={{
-                        name: comment.author.name,
-                        image: comment.author.image,
-                      }}
-                      className="size-6"
-                    />
-                    <div className="flex flex-col gap-2">
-                      <p className="text-sm text-muted-foreground">
-                        {comment.text}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {comment.Post.title}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <CommentsFeed initialComments={user.Comment} userId={user.id} />
           )}
         </div>
       </div>
@@ -120,29 +109,7 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
           {!user.Comment.length ? (
             <p className="text-xl text-muted-foreground">No comments yet</p>
           ) : (
-            <ul className="flex flex-col gap-6">
-              {user.Comment.map((comment) => (
-                <li key={comment.id}>
-                  <div className="flex items-center gap-2">
-                    <UserAvatar
-                      user={{
-                        name: comment.author.name,
-                        image: comment.author.image,
-                      }}
-                      className="size-6"
-                    />
-                    <div className="flex flex-col gap-2">
-                      <p className="text-sm text-muted-foreground">
-                        {comment.text}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {comment.Post.title}
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <CommentsFeed initialComments={user.Comment} userId={user.id} />
           )}
         </TabsContent>
       </Tabs>
