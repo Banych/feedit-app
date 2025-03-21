@@ -13,6 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { MessageSquare } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 // @ts-expect-error - No types available
 import { useRouter } from 'nextjs-toploader/app';
 import { FC, useRef, useState } from 'react';
@@ -82,9 +83,12 @@ const PostComment: FC<PostCommentProps> = ({
           className="size-6"
         />
         <div className="ml-2 flex items-center gap-2">
-          <p className="text-sm font-medium text-gray-900">
+          <Link
+            className="text-sm font-medium text-gray-900 underline underline-offset-2"
+            href={`/u/${comment.author.username}`}
+          >
             u/{comment.author.username}
-          </p>
+          </Link>
           <p className="max-h-40 truncate text-sm text-zinc-500">
             {formatTimeToNow(new Date(comment.createdAt))}
           </p>

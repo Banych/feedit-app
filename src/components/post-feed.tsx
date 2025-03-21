@@ -13,9 +13,14 @@ import { ArrowDown, BookCheck, Loader2 } from 'lucide-react';
 type PostFeedProps = {
   initialPosts: ExtendedPost[];
   subredditName?: string;
+  userId?: string;
 };
 
-const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
+const PostFeed: FC<PostFeedProps> = ({
+  initialPosts,
+  subredditName,
+  userId,
+}) => {
   const lastPostRef = useRef<HTMLElement | null>(null);
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
@@ -26,9 +31,19 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery({
     queryKey: ['infinite-query'],
     queryFn: async ({ pageParam = 1 }) => {
-      const query =
-        `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
-        (!!subredditName ? `&subredditName=${subredditName}` : '');
+      const newQueryParams = new URLSearchParams();
+      newQueryParams.append(
+        'limit',
+        INFINITE_SCROLLING_PAGINATION_RESULTS.toString()
+      );
+      newQueryParams.append('page', pageParam.toString());
+      if (subredditName) {
+        newQueryParams.append('subredditName', subredditName);
+      }
+      if (userId) {
+        newQueryParams.append('userId', userId);
+      }
+      const query = `/api/posts?${newQueryParams.toString()}`;
 
       const { data } = await axios.get(query);
 
