@@ -10,10 +10,10 @@ export async function GET(req: Request) {
     });
   }
 
-  const results = await db.subreddit.findMany({
+  const subreddits = await db.subreddit.findMany({
     where: {
       name: {
-        startsWith: searchQuery,
+        contains: searchQuery,
       },
     },
     include: {
@@ -21,6 +21,28 @@ export async function GET(req: Request) {
     },
     take: 5,
   });
+
+  const posts = await db.post.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: searchQuery,
+          },
+        },
+      ],
+    },
+    include: {
+      _count: true,
+      subreddit: true,
+    },
+    take: 5,
+  });
+
+  const results = {
+    subreddits,
+    posts,
+  };
 
   return new Response(JSON.stringify(results), { status: 200 });
 }

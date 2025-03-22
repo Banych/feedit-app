@@ -17,8 +17,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { SearchResults } from '@/types/search-bar';
 import { useHotkeys } from '@mantine/hooks';
-import { Prisma, Subreddit } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
@@ -59,14 +59,17 @@ const SearchBar = () => {
     queryKey: ['search-query'],
     queryFn: async () => {
       if (!searchQuery) {
-        return [];
+        return {
+          subreddits: [],
+          posts: [],
+        };
       }
 
-      const { data } = await axios.get(`/api/search?q=${searchQuery}`);
+      const { data } = await axios.get<SearchResults>(
+        `/api/search?q=${searchQuery}`
+      );
 
-      return data as (Subreddit & {
-        _count: Prisma.SubredditCountOutputType;
-      })[];
+      return data;
     },
   });
 
@@ -88,6 +91,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     setSearchQuery('');
+    setIsOpen(false);
   }, [pathname]);
 
   return (
@@ -147,9 +151,9 @@ const SearchBar = () => {
                   </div>
                 </CommandEmpty>
 
-                {(queryResults?.length ?? 0) > 0 && (
+                {!!queryResults?.subreddits?.length && (
                   <CommandGroup heading="Communities">
-                    {queryResults?.map((subreddit) => (
+                    {queryResults.subreddits.map((subreddit) => (
                       <CommandItem
                         key={subreddit.id}
                         onSelect={(e) => {
@@ -165,6 +169,19 @@ const SearchBar = () => {
 
                         <Link href={`/r/${subreddit.name}`}>
                           {subreddit.name}
+                        </Link>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+                {!!queryResults?.posts?.length && (
+                  <CommandGroup heading="Posts">
+                    {queryResults.posts.map((post) => (
+                      <CommandItem key={post.id} value={post.title}>
+                        <Link
+                          href={`/r/${post.subreddit.name}/post/${post.id}`}
+                        >
+                          {post.title}
                         </Link>
                       </CommandItem>
                     ))}
