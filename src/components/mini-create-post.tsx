@@ -21,15 +21,17 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
   return (
     <div className="rounded-md bg-white shadow">
       <div className="flex justify-between gap-6 px-6 py-4">
-        <div className="relative">
-          <UserAvatar
-            user={{
-              name: session?.user?.name || null,
-              image: session?.user?.image || null,
-            }}
-          />
-          <span className="absolute bottom-0 size-3 rounded-full bg-green-500 outline outline-2 outline-white ring-0" />
-        </div>
+        {session?.user ? (
+          <div className="relative">
+            <UserAvatar
+              user={{
+                name: session?.user?.name || null,
+                image: session?.user?.image || null,
+              }}
+            />
+            <span className="absolute bottom-0 size-3 rounded-full bg-green-500 outline outline-2 outline-white ring-0" />
+          </div>
+        ) : null}
         <Input
           readOnly
           onClick={() => push(pathname + '/submit')}
