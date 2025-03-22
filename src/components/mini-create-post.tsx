@@ -36,11 +36,19 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           placeholder="Create a post"
         />
 
-        <Button variant="ghost" onClick={() => push(pathname + '/submit')}>
+        <Button
+          variant="ghost"
+          onClick={() => push(pathname + '/submit')}
+          className="hidden md:block"
+        >
           <ImageIcon className="text-zinc-600" />
         </Button>
 
-        <Button variant="ghost" onClick={() => push(pathname + '/submit')}>
+        <Button
+          variant="ghost"
+          onClick={() => push(pathname + '/submit')}
+          className="hidden md:block"
+        >
           <Link2 className="text-zinc-600" />
         </Button>
       </div>

@@ -93,7 +93,7 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
             </Label>
             <Input
               id="name"
-              className="w-[400px] pl-6"
+              className="pl-6 md:w-[400px]"
               size={32}
               {...register('name')}
             />

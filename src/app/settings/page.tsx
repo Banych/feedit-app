@@ -16,7 +16,7 @@ const SettingsPage = async () => {
   }
 
   return (
-    <div className="mx-auto max-w-4xl py-12">
+    <div className="mx-auto max-w-4xl">
       <div className="grid items-start gap-8">
         <h1 className="text-3xl font-bold md:text-4xl"></h1>
       </div>

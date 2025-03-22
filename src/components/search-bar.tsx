@@ -28,9 +28,6 @@ const SearchBar = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const commandInputRef = useRef<HTMLInputElement>(null);
-  // const commandRef = useClickAway<HTMLDivElement>(() => {
-  //   setSearchQuery('');
-  // });
 
   useHotkeys([
     [
@@ -94,7 +91,7 @@ const SearchBar = () => {
       <Button variant="outline" onClick={() => setIsOpen(true)}>
         <Search className="mr-2 size-5" />
         Search...
-        <Badge variant="outline" className="ml-2">
+        <Badge variant="outline" className="ml-2 hidden lg:inline-block">
           Ctrl+K
         </Badge>
       </Button>
@@ -117,7 +114,7 @@ const SearchBar = () => {
           onValueChange={handleCommandInputChange}
           ref={commandInputRef}
         />
-        <div className="pointer-events-none absolute right-2 top-2">
+        <div className="pointer-events-none absolute right-2 top-2 hidden lg:block">
           <Badge variant="secondary">Esc</Badge>
         </div>
         <CommandList className="min-h-60 rounded-b-md bg-white shadow">
