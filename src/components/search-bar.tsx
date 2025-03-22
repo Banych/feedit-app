@@ -25,7 +25,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const { push, refresh } = useRouter();
+  const { push } = useRouter();
   const pathname = usePathname();
   const commandInputRef = useRef<HTMLInputElement>(null);
   // const commandRef = useClickAway<HTMLDivElement>(() => {
