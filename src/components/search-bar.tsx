@@ -1,29 +1,21 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
-  Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { SearchResults } from '@/types/search-bar';
 import { useHotkeys } from '@mantine/hooks';
 import { useQuery } from '@tanstack/react-query';
-import { useClickAway } from '@uidotdev/usehooks';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import { Loader2, Search, Users } from 'lucide-react';
+import { Loader2, NotepadText, Search, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // @ts-expect-error - No types available
@@ -36,9 +28,9 @@ const SearchBar = () => {
   const { push, refresh } = useRouter();
   const pathname = usePathname();
   const commandInputRef = useRef<HTMLInputElement>(null);
-  const commandRef = useClickAway<HTMLDivElement>(() => {
-    setSearchQuery('');
-  });
+  // const commandRef = useClickAway<HTMLDivElement>(() => {
+  //   setSearchQuery('');
+  // });
 
   useHotkeys([
     [
@@ -95,104 +87,115 @@ const SearchBar = () => {
   }, [pathname]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>
-        <div className={buttonVariants({ variant: 'outline' })}>
-          <Search className="mr-2 size-5" />
-          Search Communities...
-          <Badge variant="outline" className="ml-2">
-            Ctrl+K
-          </Badge>
+    <>
+      <Button variant="outline" onClick={() => setIsOpen(true)}>
+        <Search className="mr-2 size-5" />
+        Search...
+        <Badge variant="outline" className="ml-2">
+          Ctrl+K
+        </Badge>
+      </Button>
+      <CommandDialog
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        showCloseButton={false}
+        dialogHeaderClassname="sr-only"
+        dialogTitle="Search"
+        dialogDescription="Search communities and posts"
+        commandProps={{
+          shouldFilter: false,
+          loop: true,
+        }}
+      >
+        <CommandInput
+          className="border-none outline-none ring-0 focus:border-none focus:outline-none"
+          placeholder="Search..."
+          value={searchQuery}
+          onValueChange={handleCommandInputChange}
+          ref={commandInputRef}
+        />
+        <div className="pointer-events-none absolute right-2 top-2">
+          <Badge variant="secondary">Esc</Badge>
         </div>
-      </DialogTrigger>
-
-      <DialogContent showCloseButton={false} className="border-0 p-0">
-        <DialogHeader className="sr-only h-0">
-          <DialogTitle>Search Communities</DialogTitle>
-        </DialogHeader>
-
-        <Command
-          ref={commandRef}
-          className="relative max-w-lg overflow-visible rounded-lg border"
-        >
-          <CommandInput
-            className="border-none outline-none ring-0 focus:border-none focus:outline-none"
-            placeholder="Search communities..."
-            value={searchQuery}
-            onValueChange={handleCommandInputChange}
-            ref={commandInputRef}
-          />
-
-          <div className="pointer-events-none absolute right-2 top-2">
-            <Badge variant="secondary">Esc</Badge>
-          </div>
-
-          <CommandList className="min-h-60 rounded-b-md bg-white shadow">
-            {!searchQuery && (
+        <CommandList className="min-h-60 rounded-b-md bg-white shadow">
+          {!searchQuery.length && (
+            <CommandEmpty>
+              <div className="flex items-center justify-center text-zinc-500">
+                Please start typing to search.
+              </div>
+            </CommandEmpty>
+          )}
+          {searchQuery?.length > 0 && (
+            <>
               <CommandEmpty>
                 <div className="flex items-center justify-center text-zinc-500">
-                  Please start typing to search.
+                  {isFetched && !isFetching && 'No results found.'}
+                  {isFetching && (
+                    <>
+                      <Loader2 className="mr-2 size-5 animate-spin" />{' '}
+                      Searching...
+                    </>
+                  )}
                 </div>
               </CommandEmpty>
-            )}
-
-            {searchQuery?.length > 0 && (
-              <>
-                <CommandEmpty>
-                  <div className="flex items-center justify-center text-zinc-500">
-                    {isFetched && !isFetching && 'No results found.'}
-
-                    {isFetching && (
-                      <>
-                        <Loader2 className="mr-2 size-5 animate-spin" />{' '}
-                        Searching...
-                      </>
-                    )}
-                  </div>
-                </CommandEmpty>
-
-                {!!queryResults?.subreddits?.length && (
-                  <CommandGroup heading="Communities">
-                    {queryResults.subreddits.map((subreddit) => (
+              {!!queryResults?.subreddits?.length && (
+                <CommandGroup heading="Communities">
+                  {queryResults.subreddits
+                    .filter((subreddit) => `/r/${subreddit.name}` !== pathname)
+                    .map((subreddit) => (
                       <CommandItem
                         key={subreddit.id}
-                        onSelect={(e) => {
-                          push(`/r/${e}`);
-
-                          refresh();
-
-                          setIsOpen(false);
-                        }}
                         value={subreddit.name}
+                        asChild
+                        className="cursor-pointer"
+                        onSelect={() => {
+                          push(`/r/${subreddit.name}`);
+                        }}
                       >
-                        <Users className="mr-2 size-4" />
-
-                        <Link href={`/r/${subreddit.name}`}>
+                        <Link
+                          href={`/r/${subreddit.name}`}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <Users className="mr-2 size-4" />
                           {subreddit.name}
                         </Link>
                       </CommandItem>
                     ))}
-                  </CommandGroup>
-                )}
-                {!!queryResults?.posts?.length && (
-                  <CommandGroup heading="Posts">
-                    {queryResults.posts.map((post) => (
-                      <CommandItem key={post.id} value={post.title}>
+                </CommandGroup>
+              )}
+              {!!queryResults?.posts?.length && (
+                <CommandGroup heading="Posts">
+                  {queryResults.posts
+                    .filter(
+                      (post) =>
+                        `/r/${post.subreddit.name}/post/${post.id}` !== pathname
+                    )
+                    .map((post) => (
+                      <CommandItem
+                        key={post.id}
+                        value={post.title}
+                        asChild
+                        className="cursor-pointer"
+                        onSelect={() => {
+                          push(`/r/${post.subreddit.name}/post/${post.id}`);
+                        }}
+                      >
                         <Link
                           href={`/r/${post.subreddit.name}/post/${post.id}`}
+                          onClick={(e) => e.preventDefault()}
                         >
+                          <NotepadText className="mr-2 size-4" />
                           {post.title}
                         </Link>
                       </CommandItem>
                     ))}
-                  </CommandGroup>
-                )}
-              </>
-            )}
-          </CommandList>
-        </Command>
-      </DialogContent>
-    </Dialog>
+                </CommandGroup>
+              )}
+            </>
+          )}
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 };
 
