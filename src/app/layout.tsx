@@ -9,10 +9,7 @@ import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.title,
-    template: '%s - Vlad Banykin',
-  },
+  title: `${siteConfig.title} by Vlad Banykin`,
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
   authors: [
@@ -26,21 +23,18 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.url,
-    title: siteConfig.title,
+    title: `${siteConfig.title} by Vlad Banykin`,
     description: siteConfig.description,
-    siteName: siteConfig.title,
-    images: [
-      {
-        type: 'favicon',
-        url: `${siteConfig.url}/favicon.ico`,
-      },
-    ],
+    siteName: `${siteConfig.title} by Vlad Banykin`,
+    images: [`${siteConfig.url}/og-image.png`],
   },
   twitter: {
     card: 'summary',
-    title: siteConfig.title,
+    title: `${siteConfig.title} by Vlad Banykin`,
     description: siteConfig.description,
+    images: [`${siteConfig.url}/og-image.png`],
     creator: '@BanykinVlad',
+    site: siteConfig.url,
   },
   icons: {
     icon: '/favicon.ico',

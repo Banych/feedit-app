@@ -34,6 +34,7 @@ const style = {
 const renderers = {
   image: CustomImageRenderer,
   code: CustomCodeRenderer,
+  linkTool: LinkRenderer,
 };
 
 const EditorOutput: FC<EditorOutputProps> = ({
@@ -104,6 +105,11 @@ function CustomCodeRenderer({ data }: { data: { code: string } }) {
       <code className="text-sm text-gray-100">{data.code}</code>
     </pre>
   );
+}
+
+function LinkRenderer({ data }: { data: { anchor: string; url: string } }) {
+  console.log(data);
+  return 'aaa';
 }
 
 export default EditorOutput;

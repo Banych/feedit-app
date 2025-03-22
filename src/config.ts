@@ -4,5 +4,8 @@ export const siteConfig = {
   title: 'Feedit',
   description:
     'A side project to build a Reddit clone with Next.js and TypeScript.',
-  url: 'https://feedit.vercel.app',
+  url:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : 'https://app-feedit.vercel.app',
 };
