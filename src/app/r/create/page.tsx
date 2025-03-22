@@ -87,7 +87,7 @@ const CratePage = () => {
           </div>
         </div>
         <div className="flex justify-end gap-4">
-          <Button variant="subtle" onClick={back}>
+          <Button variant="secondary" onClick={back}>
             Cancel
           </Button>
           <Button

@@ -29,7 +29,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
 
   const { loginToast } = useCustomToast();
 
-  const { mutate: vote } = useMutation({
+  const { mutate: vote, isPending: isVoteLoading } = useMutation({
     mutationFn: async (voteType: VoteType) => {
       const payload: PostVoteRequestPayload = {
         postId,
@@ -85,12 +85,14 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
   }, [initialVote]);
 
   return (
-    <div className="flex gap-4 pr-6 sm:w-20 sm:flex-col sm:gap-0 sm:pb-0">
+    <div className="flex w-min items-center gap-4 pr-6 sm:w-20 sm:flex-col sm:gap-0 sm:pb-0">
       <Button
         onClick={() => vote('UP')}
-        size="sm"
+        size="icon"
         variant="ghost"
         aria-label="upvote"
+        isLoading={isVoteLoading && currentVote === 'UP'}
+        disabled={isVoteLoading}
       >
         <ArrowBigUp
           className={cn('size-5 text-zinc-700', {
@@ -103,9 +105,11 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
       </p>
       <Button
         onClick={() => vote('DOWN')}
-        size="sm"
+        size="icon"
         variant="ghost"
         aria-label="downvote"
+        isLoading={isVoteLoading && currentVote === 'DOWN'}
+        disabled={isVoteLoading}
       >
         <ArrowBigDown
           className={cn('size-5  text-zinc-700', {

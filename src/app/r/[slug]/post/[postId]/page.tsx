@@ -8,6 +8,7 @@ import { formatTimeToNow } from '@/lib/utils';
 import { CachedPost } from '@/types/redis';
 import { Post, User, Vote } from '@prisma/client';
 import { ArrowBigDown, ArrowBigUp, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -70,7 +71,13 @@ const PostPage = async (props: PostPageProps) => {
 
         <div className="w-full flex-1 rounded-sm bg-white p-4 sm:w-0">
           <p className="mt-1 max-h-40 truncate text-xs text-gray-500">
-            Posted by u/{post?.author.username ?? cachedPost.authorUsername}{' '}
+            Posted by{' '}
+            <Link
+              href={`/u/${post?.author.username ?? cachedPost.authorUsername}`}
+              className="text-zinc-900 underline underline-offset-2"
+            >
+              u/{post?.author.username ?? cachedPost.authorUsername}
+            </Link>{' '}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
           </p>
           <h1 className="py-2 text-xl font-semibold leading-6 text-gray-900">

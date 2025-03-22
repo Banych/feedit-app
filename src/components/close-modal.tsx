@@ -11,7 +11,7 @@ const CloseModal = () => {
   return (
     <Button
       aria-label="Close modal"
-      variant="subtle"
+      variant="secondary"
       className="size-6 rounded-md p-0"
       onClick={back}
     >

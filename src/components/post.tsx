@@ -1,6 +1,6 @@
 import EditorOutput from '@/components/editor-output';
 import PostVoteClient from '@/components/post-vote/post-vote-client';
-import { formatTimeToNow } from '@/lib/utils';
+import { cn, formatTimeToNow } from '@/lib/utils';
 import { Post as PostType, User, Vote } from '@prisma/client';
 import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ const Post: FC<PostProps> = ({
   votesAmount,
   currentVote,
 }) => {
-  const postRef = useRef<HTMLDivElement>(null);
+  const postRef = useRef<HTMLAnchorElement>(null);
 
   return (
     <div className="rounded-md bg-white shadow">
@@ -66,15 +66,24 @@ const Post: FC<PostProps> = ({
               {post.title}
             </h1>
           </Link>
-          <div
-            className="relative max-h-40 w-full overflow-y-clip text-sm"
+          <Link
+            href={`/r/${subredditName}/post/${post.id}`}
+            className="relative block max-h-40 w-full overflow-y-clip text-sm"
             ref={postRef}
           >
-            <EditorOutput content={post.content} isSmall />
-            {postRef.current?.clientHeight === 160 ? (
+            <EditorOutput
+              content={post.content}
+              isSmall
+              className={cn(
+                postRef.current &&
+                  postRef.current?.clientHeight >= 160 &&
+                  'pointer-events-none'
+              )}
+            />
+            {postRef.current && postRef.current?.clientHeight === 160 ? (
               <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
             ) : null}
-          </div>
+          </Link>
         </div>
       </div>
       <div className="z-20 bg-gray-50 px-2 py-1 text-sm sm:px-6 md:p-4">

@@ -2,6 +2,7 @@
 
 import EditorOutputSkeleton from '@/components/editor-output-skeleton';
 import { cn } from '@/lib/utils';
+import { ClassValue } from 'clsx';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -19,6 +20,7 @@ const OutputSmall = dynamic(
 type EditorOutputProps = {
   content: unknown;
   isSmall?: boolean;
+  className?: ClassValue;
 };
 
 const style = {
@@ -34,12 +36,16 @@ const renderers = {
   code: CustomCodeRenderer,
 };
 
-const EditorOutput: FC<EditorOutputProps> = ({ content, isSmall }) => {
+const EditorOutput: FC<EditorOutputProps> = ({
+  content,
+  isSmall,
+  className,
+}) => {
   const Component = isSmall ? OutputSmall : Output;
 
   return (
     <Component
-      className="text-sm"
+      className={cn('text-sm', className)}
       data={content}
       style={style}
       renderers={renderers}
@@ -69,7 +75,7 @@ function CustomImageRenderer({
   return (
     <div
       className={cn(
-        'relative w-full min-h-60',
+        'relative w-full min-h-40',
         stretched ? 'w-full' : '',
         withBorder ? 'border border-gray-300' : '',
         withBackground ? 'bg-gray-100 p-4' : ''
