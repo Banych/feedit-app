@@ -62,8 +62,8 @@ const CratePage = () => {
   });
 
   return (
-    <div className="container mx-auto flex h-full max-w-3xl flex-col items-center">
-      <div className="relative h-fit w-full space-y-6 rounded-lg bg-white p-4">
+    <div className="flex max-w-3xl flex-col items-center">
+      <div className="relative h-fit w-full space-y-3 rounded-lg bg-white p-4 md:space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold">Create a community</h1>
         </div>

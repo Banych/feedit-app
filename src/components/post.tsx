@@ -30,7 +30,7 @@ const Post: FC<PostProps> = ({
 
   return (
     <div className="rounded-md bg-white shadow">
-      <div className="flex flex-col justify-between px-6 py-4 sm:flex-row">
+      <div className="flex flex-col justify-between px-3 py-2 sm:flex-row md:px-6 md:py-4">
         <PostVoteClient
           initialVotesAmount={votesAmount}
           postId={post.id}
@@ -77,7 +77,7 @@ const Post: FC<PostProps> = ({
           </div>
         </div>
       </div>
-      <div className="z-20 bg-gray-50 p-4 text-sm sm:px-6">
+      <div className="z-20 bg-gray-50 px-2 py-1 text-sm sm:px-6 md:p-4">
         <Link
           href={`/r/${subredditName}/post/${post.id}`}
           className="flex w-fit items-center gap-2"

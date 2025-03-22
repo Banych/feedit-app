@@ -60,8 +60,8 @@ const UserPage: FC<UserPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-3 md:gap-6">
+      <div className="flex flex-col-reverse items-center gap-2 md:flex-row md:justify-between md:gap-6">
         <div className="flex flex-col gap-4">
           <h2 className="text-5xl font-bold">{user.username}</h2>
           <p className="text-2xl text-muted-foreground">{user.name}</p>

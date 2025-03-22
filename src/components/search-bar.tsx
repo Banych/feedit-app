@@ -10,8 +10,13 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import {
+  useLaptopMediaQuery,
+  useMobileMediaQuery,
+  useTabletMediaQuery,
+} from '@/hooks/use-media-query';
 import { SearchResults } from '@/types/search-bar';
-import { useHotkeys } from '@mantine/hooks';
+import { useHotkeys, useMediaQuery } from '@mantine/hooks';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
@@ -28,9 +33,6 @@ const SearchBar = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const commandInputRef = useRef<HTMLInputElement>(null);
-  // const commandRef = useClickAway<HTMLDivElement>(() => {
-  //   setSearchQuery('');
-  // });
 
   useHotkeys([
     [
@@ -94,7 +96,7 @@ const SearchBar = () => {
       <Button variant="outline" onClick={() => setIsOpen(true)}>
         <Search className="mr-2 size-5" />
         Search...
-        <Badge variant="outline" className="ml-2">
+        <Badge variant="outline" className="ml-2 hidden lg:inline-block">
           Ctrl+K
         </Badge>
       </Button>
@@ -117,7 +119,7 @@ const SearchBar = () => {
           onValueChange={handleCommandInputChange}
           ref={commandInputRef}
         />
-        <div className="pointer-events-none absolute right-2 top-2">
+        <div className="pointer-events-none absolute right-2 top-2 hidden lg:block">
           <Badge variant="secondary">Esc</Badge>
         </div>
         <CommandList className="min-h-60 rounded-b-md bg-white shadow">
