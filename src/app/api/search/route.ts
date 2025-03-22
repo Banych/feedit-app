@@ -24,13 +24,9 @@ export async function GET(req: Request) {
 
   const posts = await db.post.findMany({
     where: {
-      OR: [
-        {
-          title: {
-            contains: searchQuery,
-          },
-        },
-      ],
+      title: {
+        contains: searchQuery,
+      },
     },
     include: {
       _count: true,

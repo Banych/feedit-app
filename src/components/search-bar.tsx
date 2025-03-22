@@ -86,6 +86,9 @@ const SearchBar = () => {
     setIsOpen(false);
   }, [pathname]);
 
+  const subreddits = queryResults?.subreddits ?? [];
+  const posts = queryResults?.posts ?? [];
+
   return (
     <>
       <Button variant="outline" onClick={() => setIsOpen(true)}>
@@ -138,9 +141,9 @@ const SearchBar = () => {
                   )}
                 </div>
               </CommandEmpty>
-              {!!queryResults?.subreddits?.length && (
+              {!!subreddits.length && (
                 <CommandGroup heading="Communities">
-                  {queryResults.subreddits
+                  {subreddits
                     .filter((subreddit) => `/r/${subreddit.name}` !== pathname)
                     .map((subreddit) => (
                       <CommandItem
@@ -163,9 +166,9 @@ const SearchBar = () => {
                     ))}
                 </CommandGroup>
               )}
-              {!!queryResults?.posts?.length && (
+              {!!posts?.length && (
                 <CommandGroup heading="Posts">
-                  {queryResults.posts
+                  {posts
                     .filter(
                       (post) =>
                         `/r/${post.subreddit.name}/post/${post.id}` !== pathname
