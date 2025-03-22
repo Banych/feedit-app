@@ -117,7 +117,7 @@ const PostComment: FC<PostCommentProps> = ({
               setIsReplying(true);
             }}
             variant="ghost"
-            size="xs"
+            size="sm"
             aria-label="reply"
           >
             <MessageSquare className="mr-1.5 size-4" />
@@ -129,7 +129,7 @@ const PostComment: FC<PostCommentProps> = ({
           <Link
             className={buttonVariants({
               variant: 'ghost',
-              size: 'xs',
+              size: 'sm',
             })}
             href={`/r/${comment.Post.subreddit.name}/post/${comment.Post.id}#${comment.id}`}
           >
@@ -152,7 +152,7 @@ const PostComment: FC<PostCommentProps> = ({
               <div className="mt-2 flex justify-end gap-2">
                 <Button
                   tabIndex={-1}
-                  variant="subtle"
+                  variant="secondary"
                   onClick={() => setIsReplying(false)}
                 >
                   Cancel
