@@ -10,13 +10,8 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import {
-  useLaptopMediaQuery,
-  useMobileMediaQuery,
-  useTabletMediaQuery,
-} from '@/hooks/use-media-query';
 import { SearchResults } from '@/types/search-bar';
-import { useHotkeys, useMediaQuery } from '@mantine/hooks';
+import { useHotkeys } from '@mantine/hooks';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
