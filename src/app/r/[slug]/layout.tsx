@@ -71,6 +71,7 @@ const CommunityLayout = async (
               subredditId={subreddit.id}
               subredditName={subreddit.name}
               isSubscribed={isSubscribed}
+              className="my-0 w-auto md:hidden"
             />
           ) : null}
         </div>

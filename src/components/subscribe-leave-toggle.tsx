@@ -3,9 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { useCustomToast } from '@/hooks/use-custom-toast';
 import { toast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 import { SubscribeToSubredditPayload } from '@/lib/validators/subreddit';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import { ClassValue } from 'clsx';
 // @ts-expect-error - No types available
 import { useRouter } from 'nextjs-toploader/app';
 import { FC, startTransition } from 'react';
@@ -14,12 +16,14 @@ type SubscribeLeaveToggleProps = {
   subredditId: string;
   subredditName: string;
   isSubscribed: boolean;
+  className?: ClassValue;
 };
 
 const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   subredditId,
   subredditName,
   isSubscribed,
+  className,
 }) => {
   const { loginToast } = useCustomToast();
   const { refresh } = useRouter();
@@ -91,7 +95,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
 
   return isSubscribed ? (
     <Button
-      className="mb-4 mt-1 w-full"
+      className={cn('mb-4 mt-1 w-full', className)}
       isLoading={isUnsubscribeLoading}
       onClick={() => unsubscribe()}
     >
@@ -99,7 +103,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
     </Button>
   ) : (
     <Button
-      className="mb-4 mt-1 w-full"
+      className={cn('mb-4 mt-1 w-full', className)}
       isLoading={isSubscriptionLoading}
       onClick={() => subscribe()}
     >
