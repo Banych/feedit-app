@@ -83,8 +83,12 @@ const SearchBar = () => {
     setIsOpen(false);
   }, [pathname]);
 
-  const subreddits = queryResults?.subreddits ?? [];
-  const posts = queryResults?.posts ?? [];
+  const subreddits = (queryResults?.subreddits ?? []).filter(
+    (subreddit) => `/r/${subreddit.name}` !== pathname
+  );
+  const posts = (queryResults?.posts ?? []).filter(
+    (post) => `/r/${post.subreddit.name}/post/${post.id}` !== pathname
+  );
 
   return (
     <>
