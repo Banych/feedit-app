@@ -26,6 +26,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
   const [votesAmount, setVotesAmount] = useState(initialVotesAmount);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
+  const [lastClickedVote, setLastClickedVote] = useState<VoteType | null>(null);
 
   const { loginToast } = useCustomToast();
 
@@ -45,7 +46,6 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         setVotesAmount((prev) => prev + 1);
       }
 
-      //reset current vote
       setCurrentVote(prevVote);
 
       if (error instanceof AxiosError) {
@@ -61,6 +61,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
       });
     },
     onMutate: (voteType) => {
+      setLastClickedVote(voteType);
+
       if (currentVote === voteType) {
         setCurrentVote(undefined);
         if (voteType === 'UP') {
@@ -78,6 +80,9 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         }
       }
     },
+    onSettled: () => {
+      setLastClickedVote(null);
+    },
   });
 
   useEffect(() => {
@@ -91,7 +96,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         size="icon"
         variant="ghost"
         aria-label="upvote"
-        isLoading={isVoteLoading && currentVote === 'UP'}
+        isLoading={isVoteLoading && lastClickedVote === 'UP'}
         disabled={isVoteLoading}
       >
         <ArrowBigUp
@@ -108,7 +113,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         size="icon"
         variant="ghost"
         aria-label="downvote"
-        isLoading={isVoteLoading && currentVote === 'DOWN'}
+        isLoading={isVoteLoading && lastClickedVote === 'DOWN'}
         disabled={isVoteLoading}
       >
         <ArrowBigDown
