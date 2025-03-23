@@ -34,7 +34,6 @@ const style = {
 const renderers = {
   image: CustomImageRenderer,
   code: CustomCodeRenderer,
-  linkTool: LinkRenderer,
 };
 
 const EditorOutput: FC<EditorOutputProps> = ({
@@ -101,15 +100,10 @@ function CustomImageRenderer({
 
 function CustomCodeRenderer({ data }: { data: { code: string } }) {
   return (
-    <pre className="rounded-md bg-gray-800 p-4 ">
+    <pre className="overflow-auto rounded-md bg-gray-800 p-4 ">
       <code className="text-sm text-gray-100">{data.code}</code>
     </pre>
   );
-}
-
-function LinkRenderer({ data }: { data: { anchor: string; url: string } }) {
-  console.log(data);
-  return 'aaa';
 }
 
 export default EditorOutput;

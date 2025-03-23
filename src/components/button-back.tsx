@@ -11,7 +11,7 @@ const ButtonBack = () => {
   const pathname = usePathname();
   const { back } = useRouter();
 
-  if (pathname.includes('/r/')) {
+  if (pathname.includes('/r/') && !pathname.includes('/edit')) {
     const pathParts = pathname?.split('/') || [];
     const subreddit = pathParts[2];
     const post = pathParts[4];

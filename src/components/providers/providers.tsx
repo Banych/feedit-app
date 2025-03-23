@@ -1,5 +1,6 @@
 'use client';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { FC, PropsWithChildren } from 'react';
@@ -9,7 +10,9 @@ const Providers: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>{children}</SessionProvider>
+      <SessionProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 };
