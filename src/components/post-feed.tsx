@@ -1,14 +1,14 @@
 'use client';
 
+import Post from '@/components/post';
+import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import { ExtendedPost } from '@/types/db';
-import { FC, useEffect, useRef } from 'react';
 import { useIntersection } from '@mantine/hooks';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import Post from '@/components/post';
 import { ArrowDown, BookCheck, Loader2 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { FC, useEffect, useRef } from 'react';
 
 type PostFeedProps = {
   initialPosts: ExtendedPost[];
@@ -29,7 +29,7 @@ const PostFeed: FC<PostFeedProps> = ({
   const { data: session } = useSession();
 
   const { data, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery({
-    queryKey: ['infinite-query'],
+    queryKey: ['posts-infinite-query', subredditName, userId],
     queryFn: async ({ pageParam = 1 }) => {
       const newQueryParams = new URLSearchParams();
       newQueryParams.append(
@@ -110,7 +110,7 @@ const PostFeed: FC<PostFeedProps> = ({
           );
         }
       })}
-      <div className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
+      <li className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
         {isFetching ? (
           <>
             <Loader2 className="size-4 animate-spin" />
@@ -127,7 +127,7 @@ const PostFeed: FC<PostFeedProps> = ({
             No more posts to load
           </>
         )}
-      </div>
+      </li>
     </ul>
   );
 };

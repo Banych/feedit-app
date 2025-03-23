@@ -4,7 +4,7 @@ import { cn, formatTimeToNow } from '@/lib/utils';
 import { Post as PostType, User, Vote } from '@prisma/client';
 import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 type PartialVote = Pick<Vote, 'type'>;
 
@@ -26,7 +26,22 @@ const Post: FC<PostProps> = ({
   votesAmount,
   currentVote,
 }) => {
+  const [showGradientOverlay, setShowGradientOverlay] = useState(false);
   const postRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      if (postRef.current && postRef.current.clientHeight >= 160) {
+        setShowGradientOverlay(true);
+      } else {
+        setShowGradientOverlay(false);
+      }
+    });
+
+    if (postRef.current) {
+      resizeObserver.observe(postRef.current);
+    }
+  }, []);
 
   return (
     <div className="rounded-md bg-white shadow">
@@ -80,9 +95,9 @@ const Post: FC<PostProps> = ({
                   'pointer-events-none'
               )}
             />
-            {postRef.current && postRef.current?.clientHeight === 160 ? (
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
-            ) : null}
+            {showGradientOverlay && (
+              <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent to-70%" />
+            )}
           </Link>
         </div>
       </div>

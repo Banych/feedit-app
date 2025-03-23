@@ -112,15 +112,17 @@ const CommunityLayout = async (
                 />
               ) : null}
               {isSubscribed ? (
-                <Link
-                  className={buttonVariants({
-                    variant: 'outline',
-                    className: 'w-full mb-6',
-                  })}
-                  href={`/r/${slug}/submit`}
-                >
-                  Create Post
-                </Link>
+                <div className="pt-3">
+                  <Link
+                    className={buttonVariants({
+                      variant: 'outline',
+                      className: 'w-full mb-6',
+                    })}
+                    href={`/r/${slug}/submit`}
+                  >
+                    Create Post
+                  </Link>
+                </div>
               ) : null}
             </dl>
           </div>

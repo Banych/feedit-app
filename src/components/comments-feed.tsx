@@ -93,7 +93,7 @@ const CommentsFeed: FC<CommentsFeedProps> = ({
           </li>
         );
       })}
-      <div className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
+      <li className="flex items-center justify-center gap-x-4 text-sm text-zinc-500">
         {isFetching ? (
           <>
             <Loader2 className="size-4 animate-spin" />
@@ -110,7 +110,7 @@ const CommentsFeed: FC<CommentsFeedProps> = ({
             No more comments to load
           </>
         )}
-      </div>
+      </li>
     </ul>
   );
 };
