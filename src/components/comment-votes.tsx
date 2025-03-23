@@ -26,10 +26,11 @@ const CommentVotes: FC<CommentVotesProps> = ({
   const [votesAmount, setVotesAmount] = useState(initialVotesAmount);
   const [currentVote, setCurrentVote] = useState(initialVote);
   const prevVote = usePrevious(currentVote);
+  const [lastClickedVote, setLastClickedVote] = useState<VoteType | null>(null);
 
   const { loginToast } = useCustomToast();
 
-  const { mutate: vote } = useMutation({
+  const { mutate: vote, isPending: isVoteLoading } = useMutation({
     mutationFn: async (voteType: VoteType) => {
       const payload: CommentVoteRequestPayload = {
         commentId,
@@ -61,6 +62,8 @@ const CommentVotes: FC<CommentVotesProps> = ({
       });
     },
     onMutate: (voteType) => {
+      setLastClickedVote(voteType);
+
       if (currentVote === voteType) {
         setCurrentVote(undefined);
         if (voteType === 'UP') {
@@ -78,6 +81,9 @@ const CommentVotes: FC<CommentVotesProps> = ({
         }
       }
     },
+    onSettled: () => {
+      setLastClickedVote(null);
+    },
   });
 
   useEffect(() => {
@@ -88,9 +94,12 @@ const CommentVotes: FC<CommentVotesProps> = ({
     <div className="flex gap-1">
       <Button
         onClick={() => vote('UP')}
-        size="sm"
+        size="icon"
         variant="ghost"
         aria-label="upvote"
+        isLoading={isVoteLoading && lastClickedVote === 'UP'}
+        disabled={isVoteLoading}
+        className="size-9"
       >
         <ArrowBigUp
           className={cn('size-5 text-zinc-700', {
@@ -103,9 +112,12 @@ const CommentVotes: FC<CommentVotesProps> = ({
       </p>
       <Button
         onClick={() => vote('DOWN')}
-        size="sm"
+        size="icon"
         variant="ghost"
         aria-label="downvote"
+        isLoading={isVoteLoading && lastClickedVote === 'DOWN'}
+        disabled={isVoteLoading}
+        className="size-9"
       >
         <ArrowBigDown
           className={cn('size-5  text-zinc-700', {

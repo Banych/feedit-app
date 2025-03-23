@@ -46,7 +46,7 @@ const EditorOutput: FC<EditorOutputProps> = ({
 
   return (
     <Component
-      className={cn('text-sm', className)}
+      className={cn(className)}
       data={content}
       style={style}
       renderers={renderers}
