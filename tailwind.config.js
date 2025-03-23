@@ -97,6 +97,12 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      listStyleType: {
+        alpha: 'lower-alpha',
+        roman: 'lower-roman',
+        'roman-upper': 'upper-roman',
+        'alpha-upper': 'upper-alpha',
+      },
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

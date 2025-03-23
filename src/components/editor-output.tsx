@@ -1,6 +1,7 @@
 'use client';
 
 import EditorOutputSkeleton from '@/components/editor-output-skeleton';
+import ListRenderer from '@/components/editor-renderers/list-renderer';
 import { cn } from '@/lib/utils';
 import { ClassValue } from 'clsx';
 import dynamic from 'next/dynamic';
@@ -29,11 +30,17 @@ const style = {
     fontSize: '0.875rem',
     lineHeight: '1.25rem',
   },
+  // eslint-disable-next-line css/no-unknown-property
+  list: {
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+  },
 };
 
 const renderers = {
   image: CustomImageRenderer,
   code: CustomCodeRenderer,
+  list: ListRenderer,
 };
 
 const EditorOutput: FC<EditorOutputProps> = ({
@@ -45,7 +52,7 @@ const EditorOutput: FC<EditorOutputProps> = ({
 
   return (
     <Component
-      className={cn(className)}
+      className={cn('text-sm', className)}
       data={content}
       style={style}
       renderers={renderers}
