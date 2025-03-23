@@ -11,6 +11,7 @@ export const PostValidator = z.object({
     }),
   subredditId: z.string(),
   content: z.any(),
+  postId: z.string().optional(),
 });
 
 export type PostCreationRequestPayload = z.infer<typeof PostValidator>;

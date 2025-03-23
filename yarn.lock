@@ -34,26 +34,26 @@
   resolved "https://registry.yarnpkg.com/@codexteam/icons/-/icons-0.3.3.tgz#89d53af1d2bfc106e4e44be5fd824a059e94c098"
   integrity sha512-cp7mkZPgmBuSxigTm3Vb+DtVHYeX7qXfQd7o05vcLD8Ag5WvRlol2QSn5P10k0CDAJwmkH9nQGQLBycErS9lsQ==
 
-"@editorjs/code@^2.8.0":
+"@editorjs/code@^2.9.3":
   version "2.9.3"
   resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.9.3.tgz#89f25ce86e1cd551804c5c7fc2b7d3d5108777dd"
   integrity sha512-nXUrK3CjhpubvShYtcbkpZ9SU15IYwmJOsWZrlWYSzy9unZBRQthii6eABndsCtODzzV0yiSKmTp00RQkFow3Q==
   dependencies:
     "@codexteam/icons" "^0.3.2"
 
-"@editorjs/editorjs@^2.27.0", "@editorjs/editorjs@^2.29.1":
+"@editorjs/editorjs@^2.29.1", "@editorjs/editorjs@^2.30.8":
   version "2.30.8"
   resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.30.8.tgz#e88773622b656f002d6aac31a4b09a04ddea554b"
   integrity sha512-ClFuxI1qZTfXPJTacQfsJtOUP6bKoIe6BQNdAvGsDTDVwMnZEzoaSOwvUpdZEE56xppVfQueNK/1MElV9SJKHg==
 
-"@editorjs/embed@^2.5.3":
+"@editorjs/embed@^2.7.6":
   version "2.7.6"
   resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.7.6.tgz#2bd3d5d22b3bc6290fc8121dc003c8e107dcfd24"
   integrity sha512-L3agW/23mOI0L+oksUE9UOR5VSNCqapxLH5lma+5j+idjKCC31nxbx07x53MSJ4rlOTO1L7cFVhkqptEdOliJA==
   dependencies:
     "@editorjs/editorjs" "^2.29.1"
 
-"@editorjs/header@^2.7.0":
+"@editorjs/header@^2.8.8":
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.8.8.tgz#43cff7949c44866da7716fdb562d68116d0a806a"
   integrity sha512-bsMSs34u2hoi0UBuRoc5EGWXIFzJiwYgkFUYQGVm63y5FU+s8zPBmVx5Ip2sw1xgs0fqfDROqmteMvvmbCy62w==
@@ -61,21 +61,21 @@
     "@codexteam/icons" "^0.0.5"
     "@editorjs/editorjs" "^2.29.1"
 
-"@editorjs/image@^2.8.1":
+"@editorjs/image@^2.10.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.10.2.tgz#d2d6f523507d1a8e51216e7522354834dfafac86"
   integrity sha512-SU0nP9NhqwA7+Jlco/E7zjYjtRUrVGSOW8bsrrEnH8my588UW7mPGa1zwAHFs/UMB0x8LXKOb1iq40db+2iC6A==
   dependencies:
     "@codexteam/icons" "^0.3.0"
 
-"@editorjs/inline-code@^1.4.0":
+"@editorjs/inline-code@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.5.1.tgz#482709fb75c1a92161ef001d65f468cbda67aa5d"
   integrity sha512-XvKpqw9y1bOYgyuVUHGDuu7KlNWCYIXD5uU1Lpc4s4LJ8VN4TjWFGKJ3sS+LR7zzasWe8hu2ffR1JC6MHIS0EQ==
   dependencies:
     "@codexteam/icons" "^0.3.2"
 
-"@editorjs/link@^2.5.0":
+"@editorjs/link@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@editorjs/link/-/link-2.6.2.tgz#d9c17e01ecc3518ae4be61e0a024f7f225e09e5a"
   integrity sha512-3cPx6M4ZvwDDvsi0E0fvMR3rvveAV/C0GRo1JLeZJ9cG9QgyoNolj4eu5Eqx3/r1XTC/he54qYEIZ/Dc4Lr4Ow==
@@ -90,14 +90,21 @@
   dependencies:
     "@codexteam/icons" "^0.3.2"
 
-"@editorjs/paragraph@^2.9.0":
+"@editorjs/marker@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.4.0.tgz#c5553c54ced70d28502fb47f2dbc7d50c53fc88e"
+  integrity sha512-5ipEXfL44jTTRzgNp/p/YjMO7jT08S5z4V8qA3FFJTfdhKgQyM3mvP1zpdYKw47ZZpVWMCncvk5Nto3BxihEtg==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+
+"@editorjs/paragraph@^2.11.7":
   version "2.11.7"
   resolved "https://registry.yarnpkg.com/@editorjs/paragraph/-/paragraph-2.11.7.tgz#156957112b4932bc4523476c613af874d73c58fc"
   integrity sha512-qD6bbWvRc4VvP0mXDOm+hOhzzhUYR9ZjcAvgCuKWcCbUMpCvhVF1s8NX40zdjekPi6JEnuHTamCncTrSzVsVhw==
   dependencies:
     "@codexteam/icons" "^0.0.4"
 
-"@editorjs/table@^2.2.1":
+"@editorjs/table@^2.4.4":
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-2.4.4.tgz#724cbebd2c99b929bd41d31a147fdaf690ae2c81"
   integrity sha512-2wWjxk48C9Z7uaBZIS5dML81c2VsD47Va9J4RDd2UboxcnYV8OZ4oYxKafH5RJIGPj8ykGaROIzyDVR1N4e7Cg==
@@ -3111,10 +3118,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-react@^0.481.0:
-  version "0.481.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.481.0.tgz#3a5ccfccae9af65517b4faa82b4bea268bb15841"
-  integrity sha512-NrvUDNFwgLIvHiwTEq9boa5Kiz1KdUT8RJ+wmNijwxdn9U737Fw42c43sRxJTMqhL+ySHpGRVCWpwiF+abrEjw==
+lucide-react@^0.483.0:
+  version "0.483.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.483.0.tgz#036c538173a8c310ac6b7d6af150543e5ecdf116"
+  integrity sha512-WldsY17Qb/T3VZdMnVQ9C3DDIP7h1ViDTHVdVGnLZcvHNg30zH/MTQ04RTORjexoGmpsXroiQXZ4QyR0kBy0FA==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"
@@ -3267,10 +3274,10 @@ next@15.2.2:
     "@next/swc-win32-x64-msvc" "15.2.2"
     sharp "^0.33.5"
 
-nextjs-toploader@^3.7.15:
-  version "3.7.15"
-  resolved "https://registry.yarnpkg.com/nextjs-toploader/-/nextjs-toploader-3.7.15.tgz#2baba98b3d11c2001ab0639004ae5214d0e65f30"
-  integrity sha512-DvvXEJVRPfE2j1HVXgFhmPl8pRcLb/4mvyVBDuYdMdkbEY7KJghp0fG5iOZ002cV6awbBw9j/Di7vQL8LRazxQ==
+nextjs-toploader@^3.8.15:
+  version "3.8.15"
+  resolved "https://registry.yarnpkg.com/nextjs-toploader/-/nextjs-toploader-3.8.15.tgz#cc4c925032177dc6404bcc28320fa41ff0f12718"
+  integrity sha512-f/ggKImRjI1EMk5af/4VBVpH49iEuDNQgSpRvTezEleqSl20lDCsQof2q9H2q59L/kBOOpR0xBzorjrHKe1mQg==
   dependencies:
     nprogress "^0.2.0"
     prop-types "^15.8.1"

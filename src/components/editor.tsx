@@ -1,6 +1,12 @@
 'use client';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { toast } from '@/hooks/use-toast';
+import { isOutputData } from '@/lib/type-guard-editor-js';
 import { uploadFiles } from '@/lib/uploadthing';
 import {
   PostCreationRequestPayload,
@@ -19,9 +25,17 @@ import TextAreaAutosize from 'react-textarea-autosize';
 
 type EditorProps = {
   subredditId: string;
+  title?: string;
+  content?: unknown;
+  postId?: string;
 };
 
-const Editor: FC<EditorProps> = ({ subredditId }) => {
+const Editor: FC<EditorProps> = ({
+  subredditId,
+  title = '',
+  content = null,
+  postId,
+}) => {
   const editorRef = useRef<EditorJS | null>(null);
   const _titleRef = useRef<HTMLTextAreaElement | null>(null);
   const [isEditorMounted, setIsEditorMounted] = useState(false);
@@ -37,8 +51,9 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     resolver: zodResolver(PostValidator),
     defaultValues: {
       subredditId,
-      title: '',
-      content: null,
+      title,
+      content,
+      postId,
     },
   });
 
@@ -47,11 +62,13 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       title,
       content,
       subredditId,
+      postId,
     }: PostCreationRequestPayload) => {
       const payload: PostCreationRequestPayload = {
         title,
         content,
         subredditId,
+        postId,
       };
 
       const { data } = await axios.post('/api/subreddit/post/create', payload);
@@ -66,15 +83,27 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       });
     },
     onSuccess: () => {
-      const newPathname = pathname.replace(/\/submit$/, '');
-      push(newPathname);
+      if (!postId) {
+        const newPathname = pathname.replace(/\/submit$/, '');
+        push(newPathname);
 
-      refresh();
+        refresh();
 
-      return toast({
-        title: 'Post published',
-        description: 'Your post was published successfully.',
-      });
+        return toast({
+          title: 'Post published',
+          description: 'Your post was published successfully.',
+        });
+      } else {
+        const newPathname = pathname.replace(/\/edit$/, '');
+        push(newPathname);
+
+        refresh();
+
+        return toast({
+          title: 'Post updated',
+          description: 'Your post was updated successfully.',
+        });
+      }
     },
   });
 
@@ -88,6 +117,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     const LinkTool = (await import('@editorjs/link')).default;
     const InlineCode = (await import('@editorjs/inline-code')).default;
     const ImageTool = (await import('@editorjs/image')).default;
+    const Marker = (await import('@editorjs/marker')).default;
 
     if (!editorRef.current) {
       const editor = new EditorJS({
@@ -97,9 +127,11 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         },
         placeholder: 'Type here to create a post...',
         inlineToolbar: true,
-        data: {
-          blocks: [],
-        },
+        data: isOutputData(content)
+          ? content
+          : {
+              blocks: [],
+            },
         tools: {
           header: Header,
           linkTool: {
@@ -131,12 +163,25 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
           list: List,
           code: Code,
           table: Table,
-          embed: Embed,
+          embed: {
+            class: Embed,
+            config: {
+              services: {
+                youtube: true,
+                instagram: true,
+                twitter: true,
+              },
+            },
+          },
           inlineCode: InlineCode,
+          marker: {
+            class: Marker,
+            shortcut: 'CMD+SHIFT+M',
+          },
         },
       });
     }
-  }, []);
+  }, [content]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -183,6 +228,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       title: data.title,
       content: blocks,
       subredditId,
+      postId,
     };
 
     createPost(payload);
@@ -202,15 +248,37 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="prose prose-stone dark:prose-invert">
-          <TextAreaAutosize
-            {...titleProps}
-            ref={(e) => {
-              titleRef(e);
-              _titleRef.current = e;
-            }}
-            placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          />
+          {!!postId ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TextAreaAutosize
+                  {...titleProps}
+                  ref={(e) => {
+                    titleRef(e);
+                    _titleRef.current = e;
+                  }}
+                  disabled={!!postId}
+                  placeholder="Title"
+                  className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+                  defaultValue={title}
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Post title cannot be changed after publishing.</p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <TextAreaAutosize
+              {...titleProps}
+              ref={(e) => {
+                titleRef(e);
+                _titleRef.current = e;
+              }}
+              disabled={!!postId}
+              placeholder="Title"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            />
+          )}
 
           <div id="editorjs" className="min-h-[500px]" />
         </div>
