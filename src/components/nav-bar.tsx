@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import MySocialLinks from '@/components/my-social-links';
 import SearchBar from '@/components/search-bar';
 import { buttonVariants } from '@/components/ui/button';
 import UserAccountNav from '@/components/user-account-nav';
@@ -20,13 +21,16 @@ const NavBar = async () => {
 
         <SearchBar />
 
-        {session?.user ? (
-          <UserAccountNav user={session.user} />
-        ) : (
-          <Link href="/sign-in" className={buttonVariants()}>
-            Sign In
-          </Link>
-        )}
+        <div className="flex items-center gap-2 md:gap-6">
+          <MySocialLinks />
+          {session?.user ? (
+            <UserAccountNav user={session.user} />
+          ) : (
+            <Link href="/sign-in" className={buttonVariants()}>
+              Sign In
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
